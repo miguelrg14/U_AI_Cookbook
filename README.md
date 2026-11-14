@@ -28,7 +28,7 @@ A collection of game AI techniques implemented in Unity (C#). All the demos live
 Proyecto/                Unity project
   Assets/
     _Menu/               Main menu, demo catalog and navigation
-    _Shared/             Code reused by several demos (camera, decision system)
+    _Shared/             Code and art reused by several demos (camera, decision system, materials, state icons)
     01_BehaviourTrees/   One folder per demo with its own scenes, scripts, prefabs and art
     ...
     TextMesh Pro/        Shared TMP resources
