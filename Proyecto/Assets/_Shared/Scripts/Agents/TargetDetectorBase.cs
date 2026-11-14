@@ -23,6 +23,9 @@ namespace AICookbook.Shared
 
         public int SeeTargetRange => seeTargetRange;
 
+        protected virtual void OnEnable() => AIDebugView.Register(this);
+        protected virtual void OnDisable() => AIDebugView.Unregister(this);
+
         protected virtual void Update() => FindTarget();
 
         public virtual void FindTarget()
@@ -55,6 +58,17 @@ namespace AICookbook.Shared
                 }
             }
             return closest;
+        }
+
+        /// <summary>
+        ///     Ranges in the Scene view when the agent is selected
+        /// </summary>
+        protected virtual void OnDrawGizmosSelected()
+        {
+            Gizmos.color = AIDebugView.SeeRangeColor;
+            Gizmos.DrawWireSphere(transform.position, seeTargetRange);
+            if (target != null)
+                Gizmos.DrawLine(transform.position, target.transform.position);
         }
     }
 }
