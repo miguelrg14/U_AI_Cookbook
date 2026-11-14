@@ -1,21 +1,30 @@
 using UnityEngine;
-using System.Collections;
 
 namespace AICookbook.Shared
 {
-
 	/// <summary>
-	/// Makes a decision each frame to know what to do next, requesting the decision to
-	/// a decision tree. Once it gets the action from the decision, it executes it.
+	/// Runs a decision tree every frame: walks it from <see cref="rootNode"/> and executes the chosen action.
 	/// </summary>
-	public class DecisionTreeAgent : MonoBehaviour
+	public class DecisionTreeAgent : MonoBehaviour, IAIDebugLabel
 	{
-		/// <summary>
-		/// The decision tree root
-		/// </summary>
 		public DecisionTreeNode rootNode;
 
-	
+		/// <summary>
+		/// Action chosen in the last frame (shown by the AI debug view)
+		/// </summary>
+		public IAction CurrentAction { get; private set; }
+
+		Transform agentRoot;
+
+		void Awake ()
+		{
+			var body = GetComponentInParent<Rigidbody>();
+			agentRoot = body != null ? body.transform : transform;
+		}
+
+		void OnEnable () => AIDebugView.Register(this);
+		void OnDisable () => AIDebugView.Unregister(this);
+
 		// Update is called once per frame
 		void Update ()
 		{
@@ -23,12 +32,25 @@ namespace AICookbook.Shared
 			{
 				return;
 			}
-		
+
 			IAction action = rootNode.Decide();
-		
+			CurrentAction = action;
+
 			if (action != null)
 			{
 				action.Act();
+			}
+		}
+
+		public Vector3 LabelPosition => agentRoot.position + Vector3.up * 2.2f;
+
+		public string DebugLabel
+		{
+			get
+			{
+				if (CurrentAction == null) return null;
+				if (CurrentAction is ActionCallMethod call) return "Decision: " + call.message;
+				return "Decision: " + CurrentAction.GetType().Name;
 			}
 		}
 	}

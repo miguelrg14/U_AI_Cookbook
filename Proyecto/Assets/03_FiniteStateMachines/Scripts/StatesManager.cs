@@ -10,7 +10,7 @@ namespace AICookbook.FiniteStateMachines
     /// <summary>
     ///     Manages states logic, the conditions check
     /// </summary>
-    public class StatesManager : MonoBehaviour
+    public class StatesManager : MonoBehaviour, IAIDebugLabel
     {
         FsmEntityStats entityStats;
         TargetDetector targetDetector;
@@ -31,6 +31,8 @@ namespace AICookbook.FiniteStateMachines
             entityStats = GetComponentInParent<FsmEntityStats>();
             targetDetector = GetComponentInParent<TargetDetector>();
             targetDetector_Colleague = GetComponentInParent<TargetDetector_Colleague>();
+            var body = GetComponentInParent<Rigidbody>();
+            agentRoot = body != null ? body.transform : transform;
 
             states.Clear();
 
@@ -45,6 +47,14 @@ namespace AICookbook.FiniteStateMachines
                 if (states[0] != null)
                     activeState = states[0];
         }
+
+        Transform agentRoot;
+
+        void OnEnable() => AIDebugView.Register(this);
+        void OnDisable() => AIDebugView.Unregister(this);
+
+        public Vector3 LabelPosition => (agentRoot != null ? agentRoot : transform).position + Vector3.up * 2.2f;
+        public string DebugLabel => activeState != null ? "State: " + activeState.name : null;
 
         void Update()
         {
