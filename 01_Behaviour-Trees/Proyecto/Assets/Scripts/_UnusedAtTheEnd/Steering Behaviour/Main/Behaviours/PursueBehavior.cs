@@ -10,7 +10,7 @@ public class PursueBehavior : Steering
         SteeringData steering = new SteeringData();
         Vector3 direction = target.transform.position - transform.position;
         float distance = direction.magnitude;
-        float speed = GetComponent<Rigidbody>().velocity.magnitude;
+        float speed = GetComponent<Rigidbody>().linearVelocity.magnitude;
         float prediction;
 
         if (speed <= (distance / maxPrediction))
@@ -19,7 +19,7 @@ public class PursueBehavior : Steering
         else
             prediction = distance / speed;
 
-        Vector3 predictedTarget = target.transform.position + (target.GetComponent<Rigidbody>().velocity * prediction);
+        Vector3 predictedTarget = target.transform.position + (target.GetComponent<Rigidbody>().linearVelocity * prediction);
         steering.linear = predictedTarget - transform.position;
         steering.linear.Normalize();
         steering.linear *= steeringbase.maxAcceleration;

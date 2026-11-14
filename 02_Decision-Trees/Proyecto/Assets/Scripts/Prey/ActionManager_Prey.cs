@@ -1,4 +1,4 @@
-// Miguel Rodríguez Gallego
+// Miguel Rodrï¿½guez Gallego
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
@@ -74,7 +74,7 @@ public class ActionManager_Prey : MonoBehaviour
         }
 
         gameObject.transform.LookAt(direction * rotationSpeed * Time.fixedDeltaTime);
-        rb.velocity = acceleration;
+        rb.linearVelocity = acceleration;
     }
     /// <summary>
     ///     Regens stamina automatically with time
@@ -108,7 +108,7 @@ public class ActionManager_Prey : MonoBehaviour
         {
             Vector3 acceleration = transform.forward * movementSpeed * Time.fixedDeltaTime;
             acceleration.y = 0;
-            rb.velocity = acceleration;
+            rb.linearVelocity = acceleration;
             return;
         }
         if (chillingTimer <= rotateWait)
@@ -159,7 +159,7 @@ public class ActionManager_Prey : MonoBehaviour
         direction.y = 0;
         gameObject.transform.LookAt(direction * rotationSpeed * Time.fixedDeltaTime);
 
-        rb.velocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
         rb.constraints = RigidbodyConstraints.FreezeRotation;
 
         stateImage_escaping.gameObject.SetActive(false);
@@ -173,7 +173,7 @@ public class ActionManager_Prey : MonoBehaviour
     /// </summary>
     public void Rest()
     {
-        rb.velocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
         stats.RegenStamina();
 
         stateImage_escaping.gameObject.SetActive(false);

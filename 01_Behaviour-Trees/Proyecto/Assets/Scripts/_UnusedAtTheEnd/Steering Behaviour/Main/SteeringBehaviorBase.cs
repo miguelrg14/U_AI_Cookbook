@@ -10,7 +10,7 @@ public class SteeringBehaviorBase : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>(); steerings = GetComponents<Steering>();
-        rb.drag = drag;
+        rb.linearDamping = drag;
     }
 
     void FixedUpdate()

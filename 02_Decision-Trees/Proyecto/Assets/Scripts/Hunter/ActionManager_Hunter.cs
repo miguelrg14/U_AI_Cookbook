@@ -1,4 +1,4 @@
-// Miguel Rodríguez Gallego
+// Miguel Rodrï¿½guez Gallego
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -78,7 +78,7 @@ public class ActionManager_Hunter : MonoBehaviour
         if (collision.transform.tag == "Prey")
         {
             Kill();
-            rb.velocity = Vector3.zero;
+            rb.linearVelocity = Vector3.zero;
             //Transform spawn = spawnPoints[Random.Range(0, spawnPoints.Length)];
             //Instantiate(preyPrefab, spawn).transform.parent = entityTransformParent.transform;            
         }
@@ -116,7 +116,7 @@ public class ActionManager_Hunter : MonoBehaviour
         {
             Vector3 acceleration = transform.forward * movementSpeed * Time.fixedDeltaTime;
             acceleration.y = 0;
-            rb.velocity = acceleration;
+            rb.linearVelocity = acceleration;
             return;
         }
         if (chillingTimer <= rotateWait)
@@ -150,7 +150,7 @@ public class ActionManager_Hunter : MonoBehaviour
         }
 
         gameObject.transform.LookAt(direction * rotationSpeed * Time.fixedDeltaTime);
-        rb.velocity = acceleration;
+        rb.linearVelocity = acceleration;
     }
 
     /// <summary>
@@ -198,7 +198,7 @@ public class ActionManager_Hunter : MonoBehaviour
     /// </summary>
     public void Rest()
     {
-        rb.velocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
         stats.RegenStamina();
         stateImage_attacking.gameObject.SetActive(false);
         stateImage_following.gameObject.SetActive(false);

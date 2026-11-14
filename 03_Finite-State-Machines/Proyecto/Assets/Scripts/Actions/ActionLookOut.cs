@@ -39,7 +39,7 @@ public class ActionLookOut : IAction
         direction.y = 0;
         entity_gameObject.transform.LookAt(direction * rotationSpeed * Time.fixedDeltaTime);
 
-        rb.velocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
         rb.constraints = RigidbodyConstraints.FreezeRotation;
 
         visualFeedback.stateImage_escaping.gameObject.SetActive(false);

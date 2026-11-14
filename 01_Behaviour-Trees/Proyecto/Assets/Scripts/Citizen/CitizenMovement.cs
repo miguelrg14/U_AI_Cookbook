@@ -1,4 +1,4 @@
-// Miguel Rodríguez Gallego
+// Miguel Rodrï¿½guez Gallego
 using UnityEngine;
 
 /// <summary>
@@ -85,7 +85,7 @@ public class CitizenMovement : MonoBehaviour
         }
 
         gameObject.transform.LookAt(direction);
-        rb.velocity = acceleration;
+        rb.linearVelocity = acceleration;
     }
 
     /// <summary>
@@ -117,7 +117,7 @@ public class CitizenMovement : MonoBehaviour
         {
             Vector3 acceleration = transform.forward * movementSpeed * Time.fixedDeltaTime;
             acceleration.y = 0;
-            rb.velocity = acceleration;
+            rb.linearVelocity = acceleration;
             return;
         }
         if (chillingTimer <= rotateWait)

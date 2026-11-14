@@ -28,7 +28,7 @@ public class AlignmentBehavior : Steering
             Vector3 targetDir = target.position - transform.position;
             if (targetDir.magnitude < alignDistance)
             {
-                steering.linear += target.GetComponent<Rigidbody>().velocity; count++;
+                steering.linear += target.GetComponent<Rigidbody>().linearVelocity; count++;
             }
         }
         if (count > 0)

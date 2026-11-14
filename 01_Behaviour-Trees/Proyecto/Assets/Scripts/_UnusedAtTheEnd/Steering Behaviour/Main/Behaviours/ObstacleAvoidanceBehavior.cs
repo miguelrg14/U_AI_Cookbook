@@ -11,10 +11,10 @@ public class ObstacleAvoidanceBehavior : Steering
     {
         SteeringData steering = new SteeringData(); 
         Vector3[] rayVector = new Vector3[3];
-        rayVector[0] = GetComponent<Rigidbody>().velocity;
+        rayVector[0] = GetComponent<Rigidbody>().linearVelocity;
         rayVector[0].Normalize();
         rayVector[0] *= lookahead; 
-        float rayOrientation = Mathf.Atan2(GetComponent<Rigidbody>().velocity.x, GetComponent<Rigidbody>().velocity.z);
+        float rayOrientation = Mathf.Atan2(GetComponent<Rigidbody>().linearVelocity.x, GetComponent<Rigidbody>().linearVelocity.z);
         float rightRayOrientation = rayOrientation + (sideViewAngle * Mathf.Deg2Rad); 
         float leftRayOrientation = rayOrientation - (sideViewAngle * Mathf.Deg2Rad);
         rayVector[1] = new Vector3(Mathf.Cos(rightRayOrientation), 0, Mathf.Sin(rightRayOrientation)); 
