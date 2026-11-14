@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Proyecto/Assets/05_Minimax/IA Practice/Scenes/Ai Test Miguel.unity.meta
 guid: 3c77cf3765d121c408a5c028cd621ee0
 DefaultImporter:
+========
+guid: 65300ac512484003b15bd7eedf385060
+AssemblyDefinitionImporter:
+>>>>>>>> 208750ccd8759702ed96ea06e6a7c10e1717291c:Proyecto/Assets/_Shared/AICookbook.Shared.asmdef.meta
   externalObjects: {}
   userData: 
   assetBundleName: 
