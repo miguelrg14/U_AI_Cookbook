@@ -12,13 +12,13 @@ namespace AICookbook.FiniteStateMachines
     public class ActionDestroyEntity : IAction
     {
         TargetDetector targetDetector;
-        EntityStats entityStats;
+        FsmEntityStats entityStats;
         Rigidbody rb;
         VisualFeedback visualFeedback;
 
         void Start()
         {
-            entityStats = GetComponentInParent<EntityStats>();
+            entityStats = GetComponentInParent<FsmEntityStats>();
             rb = GetComponentInParent<Rigidbody>();
             visualFeedback = GetComponentInParent<VisualFeedback>();
             targetDetector = GetComponentInParent<TargetDetector>();

@@ -13,7 +13,7 @@ namespace AICookbook.FiniteStateMachines
     {
         GameObject entity_gameObject;
         TargetDetector targetDetector;
-        EntityStats entityStats;
+        FsmEntityStats entityStats;
         Rigidbody rb;
         VisualFeedback visualFeedback;
 
@@ -24,7 +24,7 @@ namespace AICookbook.FiniteStateMachines
 
         void Start()
         {
-            entityStats = GetComponentInParent<EntityStats>();
+            entityStats = GetComponentInParent<FsmEntityStats>();
             rb = GetComponentInParent<Rigidbody>();
             visualFeedback = GetComponentInParent<VisualFeedback>();
             targetDetector = GetComponentInParent<TargetDetector>();
@@ -50,23 +50,11 @@ namespace AICookbook.FiniteStateMachines
         {
             entity_gameObject = rb.gameObject;
 
-            if (targetDetector.target == null)
+            if (target == null)
                 return;
 
-            Vector3 direction = (target.transform.position - entity_gameObject.transform.position).normalized;
-            direction.y = 0;
-            Vector3 acceleration = direction * speed * Time.fixedDeltaTime;
-
             entityStats.UseStamina();
-
-            if (acceleration.magnitude > maxSpeed)
-            {
-                acceleration.Normalize();
-                acceleration *= maxSpeed;
-            }
-
-            entity_gameObject.transform.LookAt(direction * rotationSpeed * Time.fixedDeltaTime);
-            rb.linearVelocity = acceleration;
+            AgentMotor.MoveTowards(rb, target.transform.position, speed, maxSpeed, rotationSpeed);
         }
     }
 }

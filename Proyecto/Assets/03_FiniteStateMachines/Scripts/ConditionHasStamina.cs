@@ -11,11 +11,11 @@ namespace AICookbook.FiniteStateMachines
     /// </summary>
     public class ConditionHasStamina : ICondition
     {
-        EntityStats stats;
+        FsmEntityStats stats;
 
         void Awake()
         {
-            stats = GetComponentInParent<EntityStats>();
+            stats = GetComponentInParent<FsmEntityStats>();
         }
 
         /// <summary>

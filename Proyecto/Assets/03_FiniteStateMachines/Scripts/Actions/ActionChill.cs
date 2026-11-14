@@ -12,7 +12,7 @@ namespace AICookbook.FiniteStateMachines
     public class ActionChill : IAction
     {
         GameObject entity_gameObject;
-        EntityStats entityStats;
+        FsmEntityStats entityStats;
         Rigidbody rb;
         VisualFeedback visualFeedback;
 
@@ -27,23 +27,14 @@ namespace AICookbook.FiniteStateMachines
         [SerializeField] bool randmRotateOnStart = false;
 
         /// <summary>
-        ///     Controls what part of the routine must be played
+        ///     Idle wandering when there is nothing else to do
         /// </summary>
-        float chillingTimer = 0;
-        /// <summary>
-        ///     Routine randomly generated values
-        /// </summary>
-        int walkWait;
-        int walkTime;
-        int rotateWait;
-        int rotateOrNot;
-        int rotationTime;
-        float rotationQuantity;
+        readonly WanderRoutine wander = new WanderRoutine();
 
 
         void Start()
         {
-            entityStats = GetComponentInParent<EntityStats>();
+            entityStats = GetComponentInParent<FsmEntityStats>();
             rb = GetComponentInParent<Rigidbody>();
             visualFeedback = GetComponentInParent<VisualFeedback>();
         }
@@ -73,54 +64,8 @@ namespace AICookbook.FiniteStateMachines
         }
 
         /// <summary>
-        ///     Regens stamina automatically with time
+        ///     Wanders around while idle
         /// </summary>
-        void ChillRoutineLogic()
-        {
-            if (chillingTimer <= 0)
-            {
-                walkWait = Random.Range(1, 3);
-                walkTime = walkWait + Random.Range(0, 3);
-                rotateWait = walkTime + Random.Range(0, 3);
-                rotateOrNot = Random.Range(1, 2);
-                rotationTime = rotateWait + Random.Range(0, 3);
-                rotationQuantity = Random.Range(-180, 180);
-
-                rb.constraints = RigidbodyConstraints.FreezeRotation;
-            }
-
-            chillingTimer += Time.deltaTime;
-            Wander();
-        }
-        /// <summary>
-        ///     Move around logic
-        /// </summary>
-        void Wander()
-        {
-            entity_gameObject = rb.gameObject;
-
-            if (chillingTimer <= walkWait)
-                return;
-
-            if (chillingTimer <= walkTime)
-            {
-                Vector3 acceleration = entity_gameObject.transform.forward * movementSpeed * Time.fixedDeltaTime;
-                acceleration.y = 0;
-                rb.linearVelocity = acceleration;
-                return;
-            }
-            if (chillingTimer <= rotateWait)
-                return;
-
-            if (rotateOrNot == 1)
-            {
-                if (chillingTimer <= rotationTime)
-                {
-                    entity_gameObject.transform.Rotate(entity_gameObject.transform.up * Time.deltaTime * rotationQuantity);
-                    return;
-                }
-            }
-            chillingTimer = 0;
-        }
+        void ChillRoutineLogic() => wander.Tick(rb, movementSpeed);
     }
 }

@@ -12,7 +12,7 @@ namespace AICookbook.FiniteStateMachines
     public class ActionLookOut : IAction
     {
         GameObject entity_gameObject;
-        EntityStats entityStats;
+        FsmEntityStats entityStats;
         Rigidbody rb;
         VisualFeedback visualFeedback;
         TargetDetector targetDetector;
@@ -22,7 +22,7 @@ namespace AICookbook.FiniteStateMachines
 
         void Start()
         {
-            entityStats = GetComponentInParent<EntityStats>();
+            entityStats = GetComponentInParent<FsmEntityStats>();
             rb = GetComponentInParent<Rigidbody>();
             visualFeedback = GetComponentInParent<VisualFeedback>();
             targetDetector = GetComponentInParent<TargetDetector>();
@@ -40,9 +40,7 @@ namespace AICookbook.FiniteStateMachines
             if (targetDetector.target == null)
                 return;
 
-            Vector3 direction = -(targetDetector.target.transform.position - entity_gameObject.transform.position).normalized;
-            direction.y = 0;
-            entity_gameObject.transform.LookAt(direction * rotationSpeed * Time.fixedDeltaTime);
+            AgentMotor.FacePosition(entity_gameObject.transform, targetDetector.target.transform.position, rotationSpeed);
 
             rb.linearVelocity = Vector3.zero;
             rb.constraints = RigidbodyConstraints.FreezeRotation;
