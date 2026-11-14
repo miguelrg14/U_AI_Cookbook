@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/00_Menu/Scenes/MainMenu.unity
+    path: Assets/_Menu/Scenes/MainMenu.unity
     guid: 282c830c7b0e49059aa360cdbc060bbd
   - enabled: 1
     path: Assets/01_BehaviourTrees/_Scenes/BT_ZombieInfection.unity
