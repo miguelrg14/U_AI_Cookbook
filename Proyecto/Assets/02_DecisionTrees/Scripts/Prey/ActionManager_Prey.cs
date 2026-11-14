@@ -134,6 +134,9 @@ namespace AICookbook.DecisionTrees
         /// </summary>
         public void Escape()
         {
+            target = targetDetector.target;
+            if (target == null) return;
+
             EscapeOpositeDirection(target, escapeSpeed);
 
             stateImage_escaping.gameObject.SetActive(true);
@@ -158,7 +161,11 @@ namespace AICookbook.DecisionTrees
         /// </summary>
         public void LookOut()
         {
-            Vector3 direction = -(target.transform.position - gameObject.transform.position).normalized;
+            // The look-out range is wider than the see range, so use the watched target here
+            GameObject watched = targetDetector.watchingTarget;
+            if (watched == null) return;
+
+            Vector3 direction = -(watched.transform.position - gameObject.transform.position).normalized;
             direction.y = 0;
             gameObject.transform.LookAt(direction * rotationSpeed * Time.fixedDeltaTime);
 
