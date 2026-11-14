@@ -1,8 +1,6 @@
 // Miguel Rodríguez Gallego
 namespace AICookbook.Menu
 {
-    using AICookbook.Shared;
-
     /// <summary>
     ///     Data shown for each demo in the main menu.
     /// </summary>
