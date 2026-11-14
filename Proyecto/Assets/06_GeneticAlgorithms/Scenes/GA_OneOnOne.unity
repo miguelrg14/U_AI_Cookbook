@@ -294,7 +294,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 147365009}
-        m_TargetAssemblyTypeName: AICookbook.GeneticAlgorithms.AIController, Assembly-CSharp
+        m_TargetAssemblyTypeName: AICookbook.GeneticAlgorithms.AIController, AICookbook.GeneticAlgorithms
         m_MethodName: OnGameTurnChange
         m_Mode: 0
         m_Arguments:

@@ -1,0 +1,17 @@
+{
+    "name": "AICookbook.FiniteStateMachines",
+    "rootNamespace": "AICookbook.FiniteStateMachines",
+    "references": [
+        "AICookbook.Shared",
+        "UnityEngine.UI"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
