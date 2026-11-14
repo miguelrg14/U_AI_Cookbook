@@ -14,7 +14,10 @@ namespace AICookbook.GeneticAlgorithms
     [Serializable]
     public class GeneticAlgorithm
     {
-        [SerializeField] ShotgunConfiguration shotConfig;
+        [Header("Operators")]
+        [SerializeField] Selections selection;
+        [SerializeField] Crossovers crossover;
+        [SerializeField] Mutations mutation;
 
         [SerializeField] List<Individual> population;
         int _currentIndex;
@@ -27,13 +30,22 @@ namespace AICookbook.GeneticAlgorithms
         public Individual ind1;
         public Individual ind2;
 
-        public GeneticAlgorithm(int numberOfGenerations, int populationSize)
+        /// <summary>
+        ///     Population size and generations, plus the operators to use. They used to be read from the
+        ///     ShotgunConfiguration in the scene; passing them in makes the algorithm testable on its own.
+        /// </summary>
+        public GeneticAlgorithm(int numberOfGenerations, int populationSize,
+                                Selections selection = Selections.ranking,
+                                Crossovers crossover = Crossovers.real_uniform,
+                                Mutations mutation = Mutations.uniform)
         {
+            this.selection      = selection;
+            this.crossover      = crossover;
+            this.mutation       = mutation;
             CurrentGeneration   = 0;
             MaxGenerations      = numberOfGenerations;
             GenerateRandomPopulation(populationSize);
             Summary             = "";
-            shotConfig = GameObject.FindObjectOfType<ShotgunConfiguration>().gameObject.GetComponent<ShotgunConfiguration>();
         }
 
         void GenerateRandomPopulation(int size)
@@ -86,6 +98,10 @@ namespace AICookbook.GeneticAlgorithms
 
         /////////// ALGORITHM LOGIC ///////////
 
+        /// <summary> Current population (for tests and debugging) </summary>
+        internal List<Individual> Population => population;
+        internal int Generation => CurrentGeneration;
+
         public Individual GetFittest()
         {
             population.Sort();
@@ -93,21 +109,21 @@ namespace AICookbook.GeneticAlgorithms
         }
         public void SelectionLogic()
         {
-            if (shotConfig.selection.Equals(Selections.ranking))            Selection_Ranking();            // DONE
-            if (shotConfig.selection.Equals(Selections.tournament))         Selection_Tournament();         // DONE
-            if (shotConfig.selection.Equals(Selections.roulette))           Selection_Roulette();           // NO
+            if (selection.Equals(Selections.ranking))            Selection_Ranking();            // DONE
+            if (selection.Equals(Selections.tournament))         Selection_Tournament();         // DONE
+            if (selection.Equals(Selections.roulette))           Selection_Roulette();           // NO
         }
         void CrossoverLogic()
         {
-            if (shotConfig.crossover.Equals(Crossovers.real_uniform))       Crossover_Real_Uniform();       // DONE
-            if (shotConfig.crossover.Equals(Crossovers.real_plano))         Crossover_Real_Plano();         // NO
-            if (shotConfig.crossover.Equals(Crossovers.real_combined))      Crossover_Real_Combined();      // DONE
-            if (shotConfig.crossover.Equals(Crossovers.real_arithmetic))    Crossover_Real_Arithmetic();    // NO
+            if (crossover.Equals(Crossovers.real_uniform))       Crossover_Real_Uniform();       // DONE
+            if (crossover.Equals(Crossovers.real_plano))         Crossover_Real_Plano();         // NO
+            if (crossover.Equals(Crossovers.real_combined))      Crossover_Real_Combined();      // DONE
+            if (crossover.Equals(Crossovers.real_arithmetic))    Crossover_Real_Arithmetic();    // NO
         }
         void MutationLogic()
         {
-            if (shotConfig.mutation.Equals(Mutations.uniform))              Mutation_Uniform();             // DONE
-            if (shotConfig.mutation.Equals(Mutations.swap))                 Mutation_Swap();                // DONE
+            if (mutation.Equals(Mutations.uniform))              Mutation_Uniform();             // DONE
+            if (mutation.Equals(Mutations.swap))                 Mutation_Swap();                // DONE
         }
 
     #region Selection
@@ -211,7 +227,7 @@ namespace AICookbook.GeneticAlgorithms
         ///     Funciona igual que el cruce uniforme con genotipos binarios.
         ///     No se crean valores nuevos en el fenotipo, sólo se recombinan.
         /// </summary>
-        void Crossover_Real_Uniform()
+        internal void Crossover_Real_Uniform()
         {
             //Single Point Crossover//
             var new1 = new Individual(ind1.xDegree, ind2.yDegree, ind2.strength);
@@ -227,7 +243,7 @@ namespace AICookbook.GeneticAlgorithms
         ///     Intervienen 2 progenitores y generan n descendientes.
         ///     El valor del gen descendiente en la posición i se elige aleatoriamente entre un intervalo delimitado por los genes de los progenitores hallados en la misma posición.
         /// </summary>
-        void Crossover_Real_Plano()
+        internal void Crossover_Real_Plano()
         {
             // Crea dos hijos
             Individual child1 = new Individual(0f, 0f, 0f);
@@ -255,30 +271,26 @@ namespace AICookbook.GeneticAlgorithms
         ///     [BLX-α] Generalización del cruce plano. El valor del gen descendiente en la posición i se elige aleatoriamente 
         ///     entre el intervalo [Ai – α*H ; Bi + α*H], donde H = |Ai – Bi|.
         /// </summary>
-        void Crossover_Real_Combined()
+        internal void Crossover_Real_Combined()
         {
-            float alpha = 0.4f;
-
-            int valueDegreeX1 = Mathf.RoundToInt(ind1.xDegree);
-            int valueDegreeX2 = Mathf.RoundToInt(ind2.xDegree);
-            int h = Mathf.Abs(valueDegreeX1 - valueDegreeX2);
-            float minX = Random.Range(Mathf.Min(valueDegreeX1, valueDegreeX2) - alpha * h, Mathf.Max(valueDegreeX1, valueDegreeX2) - alpha * h);
-
-            int valueDegreeY1 = Mathf.RoundToInt(ind1.yDegree);
-            int valueDegreeY2 = Mathf.RoundToInt(ind2.yDegree);
-            h = Mathf.Abs(valueDegreeY1 - valueDegreeY2);
-            float minY = Random.Range(Mathf.Min(valueDegreeY1, valueDegreeY2) - alpha * h, Mathf.Max(valueDegreeY1, valueDegreeY2) - alpha * h);
-
-            int valueStrength1 = Mathf.RoundToInt(ind1.strength);
-            int valueStrength2 = Mathf.RoundToInt(ind2.strength);
-            h = Mathf.Abs(valueStrength1 - valueStrength2);
-            float minStrength = Random.Range(Mathf.Min(valueStrength1, valueStrength2) - alpha * h, Mathf.Max(valueStrength1, valueStrength2) - alpha * h);
-
-            var new1 = new Individual(minX, minY, minStrength);
+            // BLX-alpha: each gene of the child is random in [min - alpha*d, max + alpha*d], d = |parent1 - parent2|,
+            // so children can explore a bit beyond both parents
+            var child = new Individual(
+                Blend(ind1.xDegree, ind2.xDegree),
+                Blend(ind1.yDegree, ind2.yDegree),
+                Blend(ind1.strength, ind2.strength));
 
             // REPLACEMENT
             population.RemoveAt(population.Count - 1);
-            population.Add(new1);
+            population.Add(child);
+        }
+
+        internal const float BlendAlpha = 0.4f;
+
+        static float Blend(float a, float b)
+        {
+            float d = Mathf.Abs(a - b);
+            return Random.Range(Mathf.Min(a, b) - BlendAlpha * d, Mathf.Max(a, b) + BlendAlpha * d);
         }
         /// <summary>
         ///     Intervienen 2 progenitores (A y B) y generan 2 descendientes (X e Y).
@@ -286,7 +298,7 @@ namespace AICookbook.GeneticAlgorithms
         ///     El valor del gen i en el descendiente Y resulta de la operación Yi = r * Bi + (1 - r) * Ai
         ///     Si r = 0,5, el gen resultante es la media aritmética de los progenitores.
         /// </summary>
-        void Crossover_Real_Arithmetic()
+        internal void Crossover_Real_Arithmetic()
         {
             // Realiza el cruce para cada par de individuos consecutivos en la población
             for (int i = 0; i < population.Count - 1; i += 2)
@@ -323,7 +335,7 @@ namespace AICookbook.GeneticAlgorithms
         /// <summary>
         ///     Se selecciona un gen aleatoriamente y se muta.
         /// </summary>
-        void Mutation_Uniform()
+        internal void Mutation_Uniform()
         {
             foreach (var individual in population)
             {
@@ -344,7 +356,7 @@ namespace AICookbook.GeneticAlgorithms
         /// <summary>
         ///     Se seleccionan dos genes y se intercambian de posición.
         /// </summary>
-        void Mutation_Swap()
+        internal void Mutation_Swap()
         {
             foreach (var individual in population)
             {
