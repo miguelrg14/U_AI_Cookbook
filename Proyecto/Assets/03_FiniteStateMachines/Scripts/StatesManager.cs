@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace AICookbook.FiniteStateMachines
 {
+    using AICookbook.Shared;
+
 
     /// <summary>
     ///     Manages states logic, the conditions check

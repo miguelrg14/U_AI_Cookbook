@@ -5,6 +5,8 @@ using UnityEngine;
 
 namespace AICookbook.GeneticAlgorithms
 {
+    using AICookbook.Shared;
+
 
     [CreateAssetMenu(menuName = "Variables/Shooter Game State")]
     public class ShooterGameState : ScriptableObject, ISerializationCallbackReceiver

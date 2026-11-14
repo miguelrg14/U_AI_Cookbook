@@ -2,6 +2,8 @@
 
 namespace AICookbook.BehaviourTrees
 {
+    using AICookbook.Shared;
+
 
     public class FlyCamera : MonoBehaviour
     {

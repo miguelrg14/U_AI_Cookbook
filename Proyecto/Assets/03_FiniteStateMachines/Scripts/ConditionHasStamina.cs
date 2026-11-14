@@ -3,6 +3,8 @@ using UnityEngine;
 
 namespace AICookbook.FiniteStateMachines
 {
+    using AICookbook.Shared;
+
 
     /// <summary>
     ///     Entity checking if has stamina >= maxStamina to be able to move, action logic

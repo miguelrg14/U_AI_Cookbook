@@ -3,6 +3,8 @@ using UnityEngine;
 
 namespace AICookbook.FiniteStateMachines
 {
+    using AICookbook.Shared;
+
 
     /// <summary>
     ///     Entity wandering & chilling around when nobody around, action logic

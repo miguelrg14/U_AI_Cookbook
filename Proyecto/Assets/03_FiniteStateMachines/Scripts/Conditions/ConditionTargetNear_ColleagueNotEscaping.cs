@@ -3,6 +3,8 @@ using UnityEngine;
 
 namespace AICookbook.FiniteStateMachines
 {
+    using AICookbook.Shared;
+
 
     /// <summary>
     ///     Checks if an entity of same type is not escaping from another entity

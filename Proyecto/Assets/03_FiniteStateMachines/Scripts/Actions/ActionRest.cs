@@ -3,6 +3,8 @@ using UnityEngine;
 
 namespace AICookbook.FiniteStateMachines
 {
+    using AICookbook.Shared;
+
 
     /// <summary>
     ///     Entity resting when stamina <= 0, action logic

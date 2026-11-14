@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace AICookbook.BehaviourTrees
 {
+    using AICookbook.Shared;
+
 
     public class A_FollowCitizen : IAction
     {

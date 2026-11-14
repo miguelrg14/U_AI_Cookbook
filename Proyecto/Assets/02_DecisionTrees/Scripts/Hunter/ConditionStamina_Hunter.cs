@@ -5,6 +5,8 @@ using UnityEngine;
 
 namespace AICookbook.DecisionTrees
 {
+    using AICookbook.Shared;
+
 
     public class ConditionStamina_Hunter : ICondition
     {

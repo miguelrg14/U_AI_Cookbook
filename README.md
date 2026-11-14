@@ -28,6 +28,7 @@ A collection of game AI techniques implemented in Unity (C#). All the demos live
 Proyecto/                Unity project
   Assets/
     _Menu/               Main menu, demo catalog and navigation
+    _Shared/             Code reused by several demos (camera, decision system)
     01_BehaviourTrees/   One folder per demo with its own scenes, scripts, prefabs and art
     ...
     TextMesh Pro/        Shared TMP resources
@@ -35,4 +36,4 @@ Documentacion/           Original assignment reports (Spanish)
 07_Reinforcement-Learning/  Standalone C# console project
 ```
 
-Each module's scripts live in their own namespace (`AICookbook.BehaviourTrees`, `AICookbook.DecisionTrees`, ...), so modules never clash with each other. `05_Minimax` keeps the global namespace because its scenes are serialized in binary and their UI events reference the type names directly. To add a new demo, create its folder, add its scene to Build Profiles and register it in `Assets/_Menu/Scripts/DemoCatalog.cs`.
+Each module's scripts live in their own namespace (`AICookbook.BehaviourTrees`, `AICookbook.DecisionTrees`, ...), so modules never clash with each other. Code reused by several demos lives in `Assets/_Shared` (`AICookbook.Shared`): the free camera and the decision system (actions, conditions, decision trees and state machines). `05_Minimax` keeps the global namespace because its scenes are serialized in binary and their UI events reference the type names directly. To add a new demo, create its folder, add its scene to Build Profiles and register it in `Assets/_Menu/Scripts/DemoCatalog.cs`.

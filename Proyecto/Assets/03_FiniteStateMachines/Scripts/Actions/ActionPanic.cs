@@ -3,6 +3,8 @@ using UnityEngine;
 
 namespace AICookbook.FiniteStateMachines
 {
+    using AICookbook.Shared;
+
 
     /// <summary>
     ///     Entity action when paniquing (when other entity of same type is near escaping)

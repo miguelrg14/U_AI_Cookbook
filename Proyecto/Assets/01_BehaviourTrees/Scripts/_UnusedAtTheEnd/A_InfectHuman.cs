@@ -5,6 +5,8 @@ using UnityEngine;
 
 namespace AICookbook.BehaviourTrees
 {
+    using AICookbook.Shared;
+
 
     public class A_InfectHuman : IAction
     {
