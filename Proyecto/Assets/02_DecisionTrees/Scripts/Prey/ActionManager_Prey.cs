@@ -71,7 +71,7 @@ namespace AICookbook.DecisionTrees
         public void Escape()
         {
             target = targetDetector.target;
-            if (target == null) return;
+            if (target == null || !target.activeInHierarchy) return;
 
             EscapeOppositeDirection(target, escapeSpeed);
 
@@ -97,14 +97,15 @@ namespace AICookbook.DecisionTrees
         /// </summary>
         public void LookOut()
         {
-            // The look-out condition uses the look-out range, so act on its target
-            GameObject watched = targetDetector.watchingTarget;
-            if (watched == null) return;
-
-            AgentMotor.FacePosition(transform, watched.transform.position, rotationSpeed);
-
+            // Stop first: whatever happens next, a prey on the look-out must not keep moving
             rb.linearVelocity = Vector3.zero;
             rb.constraints = RigidbodyConstraints.FreezeRotation;
+
+            // Look-out happens when the hunter is seen (see range) but is not close yet (look-out range),
+            // so the hunter to watch is the one in the see range
+            GameObject seen = targetDetector.target;
+            if (seen != null && seen.activeInHierarchy)
+                AgentMotor.FacePosition(transform, seen.transform.position, rotationSpeed);
 
             stateImage_escaping.gameObject.SetActive(false);
             stateImage_chilling.gameObject.SetActive(false);
