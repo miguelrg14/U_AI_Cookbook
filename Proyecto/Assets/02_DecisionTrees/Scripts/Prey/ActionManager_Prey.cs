@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 namespace AICookbook.DecisionTrees
 {
+    using AICookbook.Shared;
+
 
     /// <summary>
     ///     Manages action methods of action tree logic of Prey
@@ -35,18 +37,9 @@ namespace AICookbook.DecisionTrees
         [SerializeField] bool randmRotateOnStart = false;
 
         /// <summary>
-        ///     Controls what part of the routine must be played
+        ///     Idle wandering when there is nothing else to do
         /// </summary>
-        float chillingTimer = 0;
-        /// <summary>
-        ///     Routine randomly generated values
-        /// </summary>
-        int walkWait;
-        int walkTime;
-        int rotateWait;
-        int rotateOrNot;
-        int rotationTime;
-        float rotationQuantity;
+        readonly WanderRoutine wander = new WanderRoutine();
 
         void Awake()
         {
@@ -63,69 +56,13 @@ namespace AICookbook.DecisionTrees
         /// </summary>
         void EscapeOppositeDirection(GameObject target, float speed)
         {
-            Vector3 direction = -(target.transform.position - gameObject.transform.position).normalized;
-            direction.y = 0;
-            Vector3 acceleration = direction * speed * Time.fixedDeltaTime;
-
             stats.UseStamina();
-
-            if (acceleration.magnitude > maxSpeed)
-            {
-                acceleration.Normalize();
-                acceleration *= maxSpeed;
-            }
-
-            gameObject.transform.LookAt(direction * rotationSpeed * Time.fixedDeltaTime);
-            rb.linearVelocity = acceleration;
+            AgentMotor.MoveAwayFrom(rb, target.transform.position, speed, maxSpeed, rotationSpeed);
         }
         /// <summary>
-        ///     Regens stamina automatically with time
+        ///     Wanders around while idle
         /// </summary>
-        void ChillRoutineLogic()
-        {
-            if (chillingTimer <= 0)
-            {
-                walkWait = Random.Range(1, 3);
-                walkTime = walkWait + Random.Range(0, 3);
-                rotateWait = walkTime + Random.Range(0, 3);
-                rotateOrNot = Random.Range(1, 2);
-                rotationTime = rotateWait + Random.Range(0, 3);
-                rotationQuantity = Random.Range(-180, 180);
-
-                rb.constraints = RigidbodyConstraints.FreezeRotation;
-            }
-
-            chillingTimer += Time.deltaTime;
-            Wander();
-        }
-        /// <summary>
-        ///     Move around logic
-        /// </summary>
-        void Wander()
-        {
-            if (chillingTimer <= walkWait)
-                return;
-
-            if (chillingTimer <= walkTime)
-            {
-                Vector3 acceleration = transform.forward * movementSpeed * Time.fixedDeltaTime;
-                acceleration.y = 0;
-                rb.linearVelocity = acceleration;
-                return;
-            }
-            if (chillingTimer <= rotateWait)
-                return;
-
-            if (rotateOrNot == 1)
-            {
-                if (chillingTimer <= rotationTime)
-                {
-                    transform.Rotate(transform.up * Time.deltaTime * rotationQuantity);
-                    return;
-                }
-            }
-            chillingTimer = 0;
-        }
+        void ChillRoutineLogic() => wander.Tick(rb, movementSpeed);
 
 
         /// <summary>
@@ -164,9 +101,7 @@ namespace AICookbook.DecisionTrees
             GameObject watched = targetDetector.watchingTarget;
             if (watched == null) return;
 
-            Vector3 direction = -(watched.transform.position - gameObject.transform.position).normalized;
-            direction.y = 0;
-            gameObject.transform.LookAt(direction * rotationSpeed * Time.fixedDeltaTime);
+            AgentMotor.FacePosition(transform, watched.transform.position, rotationSpeed);
 
             rb.linearVelocity = Vector3.zero;
             rb.constraints = RigidbodyConstraints.FreezeRotation;
