@@ -22,11 +22,7 @@ namespace AICookbook.DecisionTrees
         {
             attackableTarget = targetDetector.attackableTarget;
 
-            if (attackableTarget == null)
-                return false;
-
-            else
-                return false;
+            return attackableTarget != null && attackableTarget.activeInHierarchy;
         }
     }
 }
