@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using AICookbook.Shared;
 
 namespace AICookbook.Menu
 {
@@ -76,31 +77,42 @@ namespace AICookbook.Menu
         {
             if (InMenu || hideOverlay) return;
 
-            float scale = Mathf.Max(1f, Screen.height / 1080f);
+            float scale = OverlayScale.Current;
             BuildStyles(scale);
             GUI.depth = -1000;
 
-            // Bottom-left buttons
-            var menuRect = new Rect(12 * scale, Screen.height - 48 * scale, 160 * scale, 36 * scale);
-            if (GUI.Button(menuRect, "< Menu (Esc)", buttonStyle))
+            // Bottom-left buttons, sized from their text
+            float margin = 12 * scale;
+            var menuContent = new GUIContent("< Menu (Esc)");
+            Vector2 menuSize = buttonStyle.CalcSize(menuContent);
+            var menuRect = new Rect(margin, Screen.height - menuSize.y - margin, menuSize.x, menuSize.y);
+            if (GUI.Button(menuRect, menuContent, buttonStyle))
                 BackToMenu();
 
             if (!hasDemoInfo) return;
 
-            var helpRect = new Rect(menuRect.xMax + 8 * scale, menuRect.y, 130 * scale, menuRect.height);
-            if (GUI.Button(helpRect, showHelp ? "Hide help (H)" : "Help (H)", buttonStyle))
+            var helpContent = new GUIContent(showHelp ? "Hide help (H)" : "Help (H)");
+            Vector2 helpSize = buttonStyle.CalcSize(helpContent);
+            var helpRect = new Rect(menuRect.xMax + 8 * scale, menuRect.y, helpSize.x, helpSize.y);
+            if (GUI.Button(helpRect, helpContent, buttonStyle))
                 showHelp = !showHelp;
 
             if (showHelp)
-                DrawHelpPanel(scale);
+                DrawHelpPanel(scale, bottom: menuRect.y - margin);
         }
 
-        void DrawHelpPanel(float scale)
+        Vector2 helpScroll;
+
+        void DrawHelpPanel(float scale, float bottom)
         {
-            float width = 420 * scale;
-            var area = new Rect(12 * scale, 12 * scale, width, Screen.height - 80 * scale);
+            float margin = 12 * scale;
+            // Fixed comfortable width on wide screens, whole width (minus margins) on narrow ones
+            float width = Mathf.Min(440 * scale, Screen.width - margin * 2);
+            var area = new Rect(margin, margin, width, Mathf.Max(0, bottom - margin));
 
             GUILayout.BeginArea(area);
+            // Scrolls only when the window is too short for the whole panel
+            helpScroll = GUILayout.BeginScrollView(helpScroll, false, false, GUIStyle.none, GUI.skin.verticalScrollbar, GUIStyle.none);
             GUILayout.BeginVertical(panelStyle);
 
             GUILayout.Label($"{currentDemo.Number}  ·  {currentDemo.Technique.ToUpperInvariant()}", accentStyle);
@@ -117,6 +129,7 @@ namespace AICookbook.Menu
             GUILayout.Label(currentDemo.WhatToWatch, textStyle);
 
             GUILayout.EndVertical();
+            GUILayout.EndScrollView();
             GUILayout.EndArea();
         }
 
@@ -127,7 +140,7 @@ namespace AICookbook.Menu
 
             if (panelBackground == null)
             {
-                panelBackground = new Texture2D(1, 1);
+                panelBackground = new Texture2D(1, 1) { hideFlags = HideFlags.HideAndDontSave };
                 panelBackground.SetPixel(0, 0, new Color(0.07f, 0.075f, 0.105f, 0.88f));
                 panelBackground.Apply();
             }
@@ -136,20 +149,30 @@ namespace AICookbook.Menu
             panelStyle = new GUIStyle(GUI.skin.box)
             {
                 padding = new RectOffset(padding, padding, padding, padding),
+                margin = new RectOffset(0, 0, 0, 0),
                 normal = { background = panelBackground }
             };
             var accent = new Color32(110, 205, 165, 255);
             var secondary = new Color32(205, 210, 222, 255);
-            titleStyle = Label(26 * scale, FontStyle.Bold, Color.white);
-            accentStyle = Label(13 * scale, FontStyle.Bold, accent);
-            headerStyle = Label(13 * scale, FontStyle.Bold, accent);
-            textStyle = Label(15 * scale, FontStyle.Normal, secondary);
-            buttonStyle = new GUIStyle(GUI.skin.button) { fontStyle = FontStyle.Bold, fontSize = Mathf.RoundToInt(16 * scale) };
+            titleStyle = Label(28, scale, FontStyle.Bold, Color.white);
+            accentStyle = Label(14, scale, FontStyle.Bold, accent);
+            headerStyle = Label(14, scale, FontStyle.Bold, accent);
+            textStyle = Label(17, scale, FontStyle.Normal, secondary);
+
+            int padX = Mathf.RoundToInt(14 * scale);
+            int padY = Mathf.RoundToInt(8 * scale);
+            buttonStyle = new GUIStyle(GUI.skin.button)
+            {
+                fontStyle = FontStyle.Bold,
+                fontSize = OverlayScale.Font(17, scale),
+                wordWrap = false,
+                padding = new RectOffset(padX, padX, padY, padY)
+            };
         }
 
-        static GUIStyle Label(float size, FontStyle style, Color color) => new GUIStyle(GUI.skin.label)
+        static GUIStyle Label(float size, float scale, FontStyle style, Color color) => new GUIStyle(GUI.skin.label)
         {
-            fontSize = Mathf.RoundToInt(size),
+            fontSize = OverlayScale.Font(size, scale),
             fontStyle = style,
             wordWrap = true,
             normal = { textColor = color }

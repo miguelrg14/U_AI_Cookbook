@@ -128,11 +128,13 @@ namespace AICookbook.Shared
         {
             if (!HasContent) return;
 
-            float scale = Mathf.Max(1f, Screen.height / 1080f);
+            float scale = OverlayScale.Current;
             BuildStyles(scale);
 
-            var status = Enabled ? "AI debug: ON  (G)" : "AI debug: OFF  (G)";
-            GUI.Label(new Rect(Screen.width - 230 * scale, 12 * scale, 218 * scale, 28 * scale), status, statusStyle);
+            var status = new GUIContent(Enabled ? "AI debug: ON  (G)" : "AI debug: OFF  (G)");
+            Vector2 statusSize = statusStyle.CalcSize(status);
+            float margin = 12 * scale;
+            GUI.Label(new Rect(Screen.width - statusSize.x - margin, margin, statusSize.x, statusSize.y), status, statusStyle);
 
             if (!Enabled) return;
 
@@ -149,30 +151,43 @@ namespace AICookbook.Shared
                 Vector3 screen = cam.WorldToScreenPoint(label.LabelPosition);
                 if (screen.z <= 0) continue; // behind the camera
 
-                Vector2 size = labelStyle.CalcSize(new GUIContent(text));
+                // Size from the text itself (padding included), so it is never cut
+                var content = new GUIContent(text);
+                Vector2 size = labelStyle.CalcSize(content);
                 var rect = new Rect(screen.x - size.x / 2f, Screen.height - screen.y - size.y, size.x, size.y);
-                GUI.Label(rect, text, labelStyle);
+                GUI.Label(rect, content, labelStyle);
             }
         }
 
+        Texture2D labelBackground;
+        float stylesScale = -1f;
+
         void BuildStyles(float scale)
         {
-            if (labelStyle != null && labelStyle.fontSize == Mathf.RoundToInt(14 * scale)) return;
+            if (labelStyle != null && Mathf.Approximately(scale, stylesScale)) return;
+            stylesScale = scale;
 
-            var background = new Texture2D(1, 1) { hideFlags = HideFlags.HideAndDontSave };
-            background.SetPixel(0, 0, new Color(0f, 0f, 0f, 0.7f));
-            background.Apply();
+            if (labelBackground == null)
+            {
+                labelBackground = new Texture2D(1, 1) { hideFlags = HideFlags.HideAndDontSave };
+                labelBackground.SetPixel(0, 0, new Color(0f, 0f, 0f, 0.7f));
+                labelBackground.Apply();
+            }
 
-            int pad = Mathf.RoundToInt(5 * scale);
+            int padX = Mathf.RoundToInt(8 * scale);
+            int padY = Mathf.RoundToInt(4 * scale);
             labelStyle = new GUIStyle(GUI.skin.label)
             {
-                fontSize = Mathf.RoundToInt(14 * scale),
+                fontSize = OverlayScale.Font(16, scale),
                 fontStyle = FontStyle.Bold,
                 alignment = TextAnchor.MiddleCenter,
-                padding = new RectOffset(pad, pad, pad / 2, pad / 2),
-                normal = { textColor = Color.white, background = background }
+                wordWrap = false,                 // one line: CalcSize gives the exact width
+                clipping = TextClipping.Overflow,
+                padding = new RectOffset(padX, padX, padY, padY),
+                margin = new RectOffset(0, 0, 0, 0),
+                normal = { textColor = Color.white, background = labelBackground }
             };
-            statusStyle = new GUIStyle(labelStyle) { alignment = TextAnchor.MiddleRight, normal = { textColor = new Color32(110, 205, 165, 255) } };
+            statusStyle = new GUIStyle(labelStyle) { normal = { textColor = new Color32(110, 205, 165, 255), background = labelBackground } };
         }
     }
 }
