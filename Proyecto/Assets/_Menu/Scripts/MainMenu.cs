@@ -20,9 +20,18 @@ namespace AICookbook.Menu
         [SerializeField] Color accentColor = new Color32(110, 205, 165, 255);
         [SerializeField] Color secondaryTextColor = new Color32(196, 202, 216, 255);
 
-        [Header("Layout")]
-        [SerializeField] int columns = 3;
-        [SerializeField] Vector2 cardSize = new Vector2(540, 240);
+        [Header("Layout (reference pixels, 1920x1080)")]
+        [SerializeField] int maxColumns = 3;
+        [SerializeField] float minCardWidth = 400;
+        [SerializeField] float maxCardWidth = 560;
+        [SerializeField] float cardHeight = 240;
+        [SerializeField] float cardSpacing = 28;
+
+        RectTransform canvasRect;
+        VerticalLayoutGroup column;
+        GridLayoutGroup grid;
+        RectTransform gridRect;
+        Vector2 lastCanvasSize;
 
         void Awake()
         {
@@ -41,6 +50,18 @@ namespace AICookbook.Menu
             new GameObject("EventSystem", typeof(EventSystem), typeof(StandaloneInputModule));
         }
 
+        /// <summary>
+        ///     Re-fits the layout whenever the window (and so the canvas) changes size
+        /// </summary>
+        void Update()
+        {
+            if (canvasRect == null) return;
+            Vector2 size = canvasRect.rect.size;
+            if (size == lastCanvasSize) return;
+            lastCanvasSize = size;
+            Relayout(size);
+        }
+
         void BuildUI()
         {
             var canvasGO = new GameObject("MenuCanvas", typeof(RectTransform), typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
@@ -50,16 +71,16 @@ namespace AICookbook.Menu
             scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             scaler.referenceResolution = new Vector2(1920, 1080);
             scaler.matchWidthOrHeight = 0.5f;
+            canvasRect = (RectTransform)canvasGO.transform;
 
             var background = CreateImage("Background", canvasGO.transform, backgroundColor);
             Stretch(background.rectTransform);
 
-            // Vertical column: header, demo grid, footer
+            // Vertical column: header, scrollable demo grid, footer
             var content = new GameObject("Content", typeof(RectTransform), typeof(VerticalLayoutGroup));
             content.transform.SetParent(canvasGO.transform, false);
             Stretch((RectTransform)content.transform);
-            var column = content.GetComponent<VerticalLayoutGroup>();
-            column.padding = new RectOffset(100, 100, 80, 50);
+            column = content.GetComponent<VerticalLayoutGroup>();
             column.spacing = 12;
             column.childAlignment = TextAnchor.UpperCenter;
             column.childControlWidth = true;
@@ -67,24 +88,67 @@ namespace AICookbook.Menu
             column.childForceExpandWidth = true;
             column.childForceExpandHeight = false;
 
-            CreateText(content.transform, "AI Cookbook", 86, FontStyles.Bold, Color.white, TextAlignmentOptions.Center);
+            var title = CreateText(content.transform, "AI Cookbook", 86, FontStyles.Bold, Color.white, TextAlignmentOptions.Center);
+            title.enableAutoSizing = true;
+            title.fontSizeMin = 40;
+            title.fontSizeMax = 86;
             CreateText(content.transform, "Game AI techniques in Unity  ·  Miguel Rodríguez Gallego", 30, FontStyles.Normal, accentColor, TextAlignmentOptions.Center);
-            CreateSpacer(content.transform, 40);
+            CreateSpacer(content.transform, 24);
 
-            var gridGO = new GameObject("Demos", typeof(RectTransform), typeof(GridLayoutGroup), typeof(LayoutElement));
-            gridGO.transform.SetParent(content.transform, false);
-            var grid = gridGO.GetComponent<GridLayoutGroup>();
-            grid.cellSize = cardSize;
-            grid.spacing = new Vector2(28, 28);
+            // Scroll view: only scrolls when the cards don't fit in the window
+            var scrollGO = new GameObject("DemosScroll", typeof(RectTransform), typeof(ScrollRect), typeof(LayoutElement));
+            scrollGO.transform.SetParent(content.transform, false);
+            scrollGO.GetComponent<LayoutElement>().flexibleHeight = 1;
+            var scroll = scrollGO.GetComponent<ScrollRect>();
+            scroll.horizontal = false;
+            scroll.movementType = ScrollRect.MovementType.Clamped;
+            scroll.scrollSensitivity = 40;
+
+            var viewport = new GameObject("Viewport", typeof(RectTransform), typeof(RectMask2D), typeof(Image));
+            viewport.transform.SetParent(scrollGO.transform, false);
+            Stretch((RectTransform)viewport.transform);
+            viewport.GetComponent<Image>().color = Color.clear; // receives drag / wheel events
+            scroll.viewport = (RectTransform)viewport.transform;
+
+            var gridGO = new GameObject("Demos", typeof(RectTransform), typeof(GridLayoutGroup), typeof(ContentSizeFitter));
+            gridGO.transform.SetParent(viewport.transform, false);
+            gridRect = (RectTransform)gridGO.transform;
+            gridRect.anchorMin = new Vector2(0, 1);
+            gridRect.anchorMax = new Vector2(1, 1);
+            gridRect.pivot = new Vector2(0.5f, 1);
+            gridRect.offsetMin = gridRect.offsetMax = Vector2.zero;
+            gridGO.GetComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+            scroll.content = gridRect;
+
+            grid = gridGO.GetComponent<GridLayoutGroup>();
+            grid.spacing = new Vector2(cardSpacing, cardSpacing);
             grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-            grid.constraintCount = Mathf.Max(1, columns);
             grid.childAlignment = TextAnchor.UpperCenter;
-            gridGO.GetComponent<LayoutElement>().flexibleHeight = 1;
 
             foreach (var demo in DemoCatalog.Demos)
                 CreateCard(gridGO.transform, demo);
 
             CreateText(content.transform, "Press Esc or the Menu button inside any demo to come back here.", 22, FontStyles.Italic, secondaryTextColor, TextAlignmentOptions.Center);
+
+            Relayout(canvasRect.rect.size);
+        }
+
+        /// <summary>
+        ///     Margins, number of columns and card width from the current canvas size
+        /// </summary>
+        void Relayout(Vector2 canvasSize)
+        {
+            int side = Mathf.RoundToInt(Mathf.Clamp(canvasSize.x * 0.05f, 24, 100));
+            int top = Mathf.RoundToInt(Mathf.Clamp(canvasSize.y * 0.06f, 20, 80));
+            column.padding = new RectOffset(side, side, top, Mathf.RoundToInt(top * 0.6f));
+
+            float available = canvasSize.x - side * 2;
+            int columns = Mathf.Clamp(Mathf.FloorToInt((available + cardSpacing) / (minCardWidth + cardSpacing)), 1, Mathf.Max(1, maxColumns));
+            float cardWidth = Mathf.Min(maxCardWidth, (available - cardSpacing * (columns - 1)) / columns);
+
+            grid.constraintCount = columns;
+            grid.cellSize = new Vector2(Mathf.Max(200, cardWidth), cardHeight);
+            LayoutRebuilder.MarkLayoutForRebuild(gridRect);
         }
 
         void CreateCard(Transform parent, DemoInfo demo)
@@ -142,9 +206,14 @@ namespace AICookbook.Menu
             layout.childForceExpandWidth = true;
             layout.childForceExpandHeight = false;
 
-            CreateText(card.transform, $"{demo.Number}  ·  {demo.Technique.ToUpperInvariant()}", 20, FontStyles.Bold, accentColor, TextAlignmentOptions.TopLeft);
-            CreateText(card.transform, demo.Title, 38, FontStyles.Bold, Color.white, TextAlignmentOptions.TopLeft);
-            CreateText(card.transform, demo.Description, 22, FontStyles.Normal, secondaryTextColor, TextAlignmentOptions.TopLeft);
+            // Tag and title keep their height; only the description shrinks when the card is narrow
+            var techniqueText = CreateText(card.transform, $"{demo.Number}  ·  {demo.Technique.ToUpperInvariant()}", 20, FontStyles.Bold, accentColor, TextAlignmentOptions.TopLeft);
+            techniqueText.gameObject.AddComponent<LayoutElement>().minHeight = 26;
+            var titleText = CreateText(card.transform, demo.Title, 38, FontStyles.Bold, Color.white, TextAlignmentOptions.TopLeft);
+            titleText.gameObject.AddComponent<LayoutElement>().minHeight = 48;
+            titleText.overflowMode = TextOverflowModes.Ellipsis;
+            var description = CreateText(card.transform, demo.Description, 22, FontStyles.Normal, secondaryTextColor, TextAlignmentOptions.TopLeft);
+            description.overflowMode = TextOverflowModes.Ellipsis; // narrow cards cut the text with "..." instead of overflowing
         }
 
         static void LoadDemo(string scene)

@@ -2,6 +2,7 @@
     "name": "AICookbook.Menu",
     "rootNamespace": "AICookbook.Menu",
     "references": [
+        "AICookbook.Shared",
         "Unity.TextMeshPro",
         "UnityEngine.UI"
     ],
