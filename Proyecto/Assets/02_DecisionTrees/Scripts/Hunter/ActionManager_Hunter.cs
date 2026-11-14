@@ -140,6 +140,8 @@ namespace AICookbook.DecisionTrees
         /// </summary>
         void MoveTowards(GameObject target, float speed)
         {
+            if (target == null) return;
+
             Vector3 direction = (target.transform.position - gameObject.transform.position).normalized;
             direction.y = 0;
             Vector3 acceleration = direction * speed * Time.fixedDeltaTime;
@@ -161,6 +163,7 @@ namespace AICookbook.DecisionTrees
         /// </summary>
         public void Attack()
         {
+            attackableTarget = targetDetector.attackableTarget;
             MoveTowards(attackableTarget, attackSpeed);
             stateImage_attacking.gameObject.SetActive(true);
             stateImage_following.gameObject.SetActive(false);
@@ -178,6 +181,7 @@ namespace AICookbook.DecisionTrees
         /// </summary>
         public void Follow()
         {
+            target = targetDetector.target;
             MoveTowards(target, followSpeed);
             stateImage_attacking.gameObject.SetActive(false);
             stateImage_following.gameObject.SetActive(true);
