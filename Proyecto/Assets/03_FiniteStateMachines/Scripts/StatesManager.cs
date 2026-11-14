@@ -12,7 +12,7 @@ namespace AICookbook.FiniteStateMachines
     /// </summary>
     public class StatesManager : MonoBehaviour
     {
-        EntityStats entityStats;
+        FsmEntityStats entityStats;
         TargetDetector targetDetector;
         TargetDetector_Colleague targetDetector_Colleague;
 
@@ -28,7 +28,7 @@ namespace AICookbook.FiniteStateMachines
 
         void Awake()
         {
-            entityStats = GetComponentInParent<EntityStats>();
+            entityStats = GetComponentInParent<FsmEntityStats>();
             targetDetector = GetComponentInParent<TargetDetector>();
             targetDetector_Colleague = GetComponentInParent<TargetDetector_Colleague>();
 

@@ -1,14 +1,12 @@
-// Miguel Rodríguez Gallego
-using System.Collections;
-using System.Collections.Generic;
+// Miguel RodrÃ­guez Gallego
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace AICookbook.DecisionTrees
+namespace AICookbook.Shared
 {
-
     /// <summary>
-    ///     Stamina state stats 
+    ///     Stamina of an agent. Actions spend it while moving and recover it while resting;
+    ///     once it reaches zero the agent must rest until it is full again.
     /// </summary>
     public class EntityStats : MonoBehaviour
     {
@@ -17,24 +15,20 @@ namespace AICookbook.DecisionTrees
         public float maxStamina;
         [SerializeField] float staminaWaste = 15f;
         [SerializeField] float staminaRegen = 10f;
-        [SerializeField] float staminaRegenStartTime = 2f;
-        [SerializeField] float staminaRegenPerSecond = 20f;
-        public static bool staminaResetCooldown;
-        public static bool staminaRegenerated = true;
-        float staminaCountdown = 0f;
         public bool canRegenStamina;
 
-        [SerializeField] Slider staminaProgressBar; /// Health
+        [SerializeField] Slider staminaProgressBar;
 
-        void Start() => UpdateStamina_UISlider();
-        void Update() => UpdateStamina();
-
-        void UpdateStamina()
+        protected virtual void Start()
         {
+            UpdateStaminaSlider();
             CheckStaminaState();
         }
+
+        protected virtual void Update() => CheckStaminaState();
+
         /// <summary>
-        ///     Checks stamina state to make an action or another
+        ///     Empty stamina forces a full regeneration before the agent can act again
         /// </summary>
         void CheckStaminaState()
         {
@@ -46,29 +40,29 @@ namespace AICookbook.DecisionTrees
         }
 
         /// <summary>
-        ///     Lower stamina automatically with time
+        ///     Lowers stamina with time
         /// </summary>
         public void UseStamina()
         {
             stamina -= staminaWaste * Time.deltaTime;
-            UpdateStamina_UISlider();
+            UpdateStaminaSlider();
         }
+
         /// <summary>
-        ///     Regens stamina automatically with time
+        ///     Regens stamina with time
         /// </summary>
         public void RegenStamina()
         {
             stamina += staminaRegen * Time.deltaTime;
-            UpdateStamina_UISlider();
+            UpdateStaminaSlider();
         }
-        /// <summary>
-        ///     HUD Methods to show correctly stamina in slider bar
-        /// </summary>
-        void UpdateStamina_UISlider()
+
+        void UpdateStaminaSlider()
         {
-            float fillAmount = stamina / maxStamina;
-            staminaProgressBar.value = fillAmount;
+            if (staminaProgressBar != null && maxStamina > 0)
+                staminaProgressBar.value = stamina / maxStamina;
         }
+
         public float GetStamina() => stamina;
         public bool GetCanRegenStamina() => canRegenStamina;
     }

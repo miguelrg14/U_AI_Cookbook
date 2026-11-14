@@ -34,7 +34,7 @@ namespace AICookbook.FiniteStateMachines
             {
                 if
                 (
-                    (target.GetComponent<EntityStats>().isPanicking == false)
+                    (target.GetComponent<FsmEntityStats>().isPanicking == false)
                 )
                 {
                     return true;
