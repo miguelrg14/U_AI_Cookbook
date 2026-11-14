@@ -1,5 +1,7 @@
 namespace AICookbook.BehaviourTrees
 {
+    using AICookbook.Shared;
+
 #if UNITY_EDITOR
 
     using UnityEditor;

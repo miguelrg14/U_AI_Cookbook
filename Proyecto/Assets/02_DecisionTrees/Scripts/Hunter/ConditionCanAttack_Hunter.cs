@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace AICookbook.DecisionTrees
 {
+    using AICookbook.Shared;
+
 
     public class ConditionCanAttack_Hunter : ICondition
     {

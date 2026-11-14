@@ -2,6 +2,8 @@ using UnityEngine;
 
 namespace AICookbook.BehaviourTrees
 {
+    using AICookbook.Shared;
+
 
     /// <summary>
     /// Checks if "target" is visible (raycasting) from transform.

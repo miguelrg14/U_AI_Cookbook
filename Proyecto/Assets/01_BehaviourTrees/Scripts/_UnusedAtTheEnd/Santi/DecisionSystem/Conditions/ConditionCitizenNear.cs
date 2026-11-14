@@ -3,6 +3,8 @@ using UnityEngine;
 
 namespace AICookbook.BehaviourTrees
 {
+    using AICookbook.Shared;
+
 
     /// <summary>
     /// Checks if this transform is within "range" distance from "target"

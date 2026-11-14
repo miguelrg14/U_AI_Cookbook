@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace AICookbook.FiniteStateMachines
 {
+    using AICookbook.Shared;
+
 
     public class ConditionNoStamina : ICondition
     {
