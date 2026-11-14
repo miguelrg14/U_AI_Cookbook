@@ -22,6 +22,13 @@ A collection of game AI techniques implemented in Unity (C#). All the demos live
 2. Open `Assets/_Menu/Scenes/MainMenu.unity` and press Play.
 3. Inside any demo, press **Esc** or the **Menu** button (bottom-left) to return.
 
+## Tests
+
+EditMode tests (Window → General → Test Runner → EditMode → Run All):
+
+- `AICookbook.Shared.Tests`: target detection ranges and hysteresis with real colliders, agent movement.
+- `AICookbook.GeneticAlgorithms.Tests`: population, selection, crossover (including a regression test for BLX-α), mutation ranges and a full evolution run that must improve the population.
+
 ## Repository layout
 
 ```
