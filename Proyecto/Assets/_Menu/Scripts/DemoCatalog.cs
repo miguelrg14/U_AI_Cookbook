@@ -37,20 +37,21 @@ namespace AICookbook.Menu
         public const string MenuScene = "MainMenu";
 
         const string FreeCamera = "Space: toggle free camera (WASD + mouse, Shift to go faster)";
+        const string DebugView = "G: AI debug view (detection ranges, targets and current decision)";
 
         public static readonly DemoInfo[] Demos =
         {
             new DemoInfo("01", "Zombie Infection", "Behaviour Trees",
                 "Citizens flee and zombies chase the closest target they detect. Click a citizen to infect it.",
                 "BT_ZombieInfection",
-                new[] { "Left click on a citizen: infect it", FreeCamera },
+                new[] { "Left click on a citizen: infect it", DebugView, FreeCamera },
                 "Zombies chase the closest citizen in range and citizens run away from the closest zombie. " +
                 "With nobody around, both wander. Every citizen a zombie touches becomes a zombie too."),
 
             new DemoInfo("02", "Predator & Prey", "Decision Trees",
                 "Hunters and prey decide whether to chase, flee, wander or rest depending on stamina and distance.",
                 "DT_Hunting",
-                new[] { FreeCamera },
+                new[] { DebugView, FreeCamera },
                 "The icon above each agent is the action its decision tree picked this frame. " +
                 "Watch the stamina bars: an agent that runs out of stamina must rest until it is full again, " +
                 "which gives the prey a chance to escape."),
@@ -58,7 +59,7 @@ namespace AICookbook.Menu
             new DemoInfo("03", "Predator & Prey", "Finite State Machines",
                 "The same scenario driven by state machines, with visual feedback of the current state of each agent.",
                 "FSM_Hunting",
-                new[] { FreeCamera },
+                new[] { DebugView, FreeCamera },
                 "The icon above each agent is its current state. Compare it with demo 02: here behaviour only changes " +
                 "through explicit transitions. Prey also watch each other, so when one escapes nearby ones panic."),
 
