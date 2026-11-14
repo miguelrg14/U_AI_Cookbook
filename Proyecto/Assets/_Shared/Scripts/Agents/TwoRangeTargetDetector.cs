@@ -23,6 +23,7 @@ namespace AICookbook.Shared
         protected GameObject closeTarget;
 
         public int CloseTargetRange => closeTargetRange;
+        public GameObject CloseTarget => closeTarget;
 
         public override void FindTarget()
         {
@@ -31,6 +32,16 @@ namespace AICookbook.Shared
             closeTarget = FindClosest(closeTargetRange);
             if (closeTarget != null)
                 lastPositionSeen = closeTarget.transform.position;
+        }
+
+        protected override void OnDrawGizmosSelected()
+        {
+            base.OnDrawGizmosSelected();
+
+            Gizmos.color = AIDebugView.CloseRangeColor;
+            Gizmos.DrawWireSphere(transform.position, closeTargetRange);
+            if (closeTarget != null)
+                Gizmos.DrawLine(transform.position, closeTarget.transform.position);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace AICookbook.BehaviourTrees
     ///             - Chill Routine
     ///             - Escape
     /// </summary>
-    public class CitizenMovement : MonoBehaviour
+    public class CitizenMovement : MonoBehaviour, IAIDebugLabel
     {
         TargetDetector_Citizen targetDetector;
         Rigidbody rb;
@@ -50,16 +50,29 @@ namespace AICookbook.BehaviourTrees
         /// <summary>
         ///     Target - Action control methods
         /// </summary>
+        /// <summary>
+        ///     What the agent is doing this frame (shown by the AI debug view)
+        /// </summary>
+        string currentBehaviour;
+
+        void OnEnable() => AIDebugView.Register(this);
+        void OnDisable() => AIDebugView.Unregister(this);
+
+        public Vector3 LabelPosition => transform.position + Vector3.up * 2.2f;
+        public string DebugLabel => currentBehaviour;
+
         void Update()
         {
             target = GetComponent<TargetDetector_Citizen>().target;
 
             if (target == null)
             {
+                currentBehaviour = "Wander";
                 ChillRoutineLogic();
                 return;
             }
 
+            currentBehaviour = "Flee zombie";
             MoveOnOppositeDirectionToZombie();
         }
 
