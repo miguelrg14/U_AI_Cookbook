@@ -61,6 +61,6 @@ public class ActionSeek : IAction
         }
 
         entity_gameObject.transform.LookAt(direction * rotationSpeed * Time.fixedDeltaTime);
-        rb.velocity = acceleration;
+        rb.linearVelocity = acceleration;
     }
 }

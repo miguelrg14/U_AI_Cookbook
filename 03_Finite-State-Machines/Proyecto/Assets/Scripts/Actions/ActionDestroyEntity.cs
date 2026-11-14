@@ -25,7 +25,7 @@ public class ActionDestroyEntity : IAction
     public override void Act()
     {
         Kill();
-        rb.velocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
 
         visualFeedback.stateImage_attacking.gameObject.SetActive(true);
         visualFeedback.stateImage_following.gameObject.SetActive(false);

@@ -101,7 +101,7 @@ public class ActionChill : IAction
         {
             Vector3 acceleration = entity_gameObject.transform.forward * movementSpeed * Time.fixedDeltaTime;
             acceleration.y = 0;
-            rb.velocity = acceleration;
+            rb.linearVelocity = acceleration;
             return;
         }
         if (chillingTimer <= rotateWait)

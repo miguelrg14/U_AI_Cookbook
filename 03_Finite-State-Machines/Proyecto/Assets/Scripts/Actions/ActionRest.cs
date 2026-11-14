@@ -39,7 +39,7 @@ public class ActionRest : IAction
             visualFeedback.stateImage_resting.gameObject.SetActive(true);
         }
 
-        rb.velocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
         entityStats.RegenStamina();
     }
 }

@@ -13,7 +13,7 @@ public class ArriveBehavior : Steering
 
         if (distance < targetRadius)
         {
-            steeringbase.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            steeringbase.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
             return steering;
         }
 
@@ -26,7 +26,7 @@ public class ArriveBehavior : Steering
         Vector3 targetVelocity = direction;
         targetVelocity.Normalize();
         targetVelocity *= targetSpeed;
-        steering.linear = targetVelocity - steeringbase.GetComponent<Rigidbody>().velocity;
+        steering.linear = targetVelocity - steeringbase.GetComponent<Rigidbody>().linearVelocity;
 
         if (steering.linear.magnitude > steeringbase.maxAcceleration)
         {
