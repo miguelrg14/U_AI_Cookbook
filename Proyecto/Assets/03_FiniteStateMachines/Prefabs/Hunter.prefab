@@ -1754,7 +1754,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b5c659afb03df44fb353dcdcd181e34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPaniquing: 0
+  isPanicking: 0
   stamina: 50
   maxStamina: 50
   staminaWaste: 15

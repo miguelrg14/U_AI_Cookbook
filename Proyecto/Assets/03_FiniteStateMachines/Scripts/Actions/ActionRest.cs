@@ -35,7 +35,7 @@ namespace AICookbook.FiniteStateMachines
             }
             if (entityStats.gameObject.tag == "Prey")
             {
-                entityStats.isPaniquing = false;
+                entityStats.isPanicking = false;
                 entityStats.isEscaping = false;
 
                 visualFeedback.stateImage_escaping.gameObject.SetActive(false);

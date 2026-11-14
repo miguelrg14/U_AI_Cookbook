@@ -32,7 +32,7 @@ namespace AICookbook.FiniteStateMachines
             if ((target == null && closeTarget == null) || target == null)
             {
                 //if (targetDetector.gameObject.layer == LayerMask.GetMask("Prey"))
-                //    targetDetector.gameObject.GetComponent<EntityStats>().isPaniquing = false;
+                //    targetDetector.gameObject.GetComponent<EntityStats>().isPanicking = false;
 
                 return true;
             }

@@ -32,7 +32,7 @@ namespace AICookbook.FiniteStateMachines
         /// </summary>
         public override void Act()
         {
-            entityStats.isPaniquing = false;
+            entityStats.isPanicking = false;
             entityStats.isEscaping = false;
 
             entity_gameObject = rb.gameObject;

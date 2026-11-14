@@ -37,9 +37,9 @@ namespace AICookbook.FiniteStateMachines
         public override void Act()
         {
             if (targetDetector.target == null)
-                entityStats.isPaniquing = false;
+                entityStats.isPanicking = false;
 
-            EscapeOpositeDirection(targetDetector.target, escapeSpeed);
+            EscapeOppositeDirection(targetDetector.target, escapeSpeed);
 
             visualFeedback.stateImage_escaping.gameObject.SetActive(true);
             visualFeedback.stateImage_chilling.gameObject.SetActive(false);
@@ -49,11 +49,11 @@ namespace AICookbook.FiniteStateMachines
         /// <summary>
         ///     Escape opposite direction of target logic
         /// </summary>
-        void EscapeOpositeDirection(GameObject target, float speed)
+        void EscapeOppositeDirection(GameObject target, float speed)
         {
             entity_gameObject = rb.gameObject;
 
-            entityStats.isPaniquing = true;
+            entityStats.isPanicking = true;
             entityStats.isEscaping = false;
 
 

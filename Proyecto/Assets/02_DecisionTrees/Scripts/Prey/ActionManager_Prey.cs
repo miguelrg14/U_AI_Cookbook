@@ -1,7 +1,6 @@
 // Miguel Rodr�guez Gallego
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -62,7 +61,7 @@ namespace AICookbook.DecisionTrees
         /// <summary>
         ///     Escape opposite direction of target logic
         /// </summary>
-        void EscapeOpositeDirection(GameObject target, float speed)
+        void EscapeOppositeDirection(GameObject target, float speed)
         {
             Vector3 direction = -(target.transform.position - gameObject.transform.position).normalized;
             direction.y = 0;
@@ -137,7 +136,7 @@ namespace AICookbook.DecisionTrees
             target = targetDetector.target;
             if (target == null) return;
 
-            EscapeOpositeDirection(target, escapeSpeed);
+            EscapeOppositeDirection(target, escapeSpeed);
 
             stateImage_escaping.gameObject.SetActive(true);
             stateImage_chilling.gameObject.SetActive(false);
