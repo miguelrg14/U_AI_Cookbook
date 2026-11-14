@@ -14,7 +14,7 @@ namespace AICookbook.FiniteStateMachines
     {
         TargetDetector_Colleague targetDetector_Colleague;
 
-        public bool isPaniquing;
+        public bool isPanicking;
         public bool isEscaping;
 
         [Header("Stamina")]

@@ -37,13 +37,13 @@ namespace AICookbook.FiniteStateMachines
             {
                 if 
                 (
-                    //(target.GetComponent<EntityStats>().isPaniquing == true) || 
-                    //(closeTarget.GetComponent<EntityStats>().isPaniquing == true)
+                    //(target.GetComponent<EntityStats>().isPanicking == true) || 
+                    //(closeTarget.GetComponent<EntityStats>().isPanicking == true)
                     (target.GetComponent<EntityStats>().isEscaping == true) ||
                     (closeTarget.GetComponent<EntityStats>().isEscaping == true)
                 )
                 {
-                    targetDetector.gameObject.GetComponent<EntityStats>().isPaniquing = true;
+                    targetDetector.gameObject.GetComponent<EntityStats>().isPanicking = true;
                     return true;
                 }
 
