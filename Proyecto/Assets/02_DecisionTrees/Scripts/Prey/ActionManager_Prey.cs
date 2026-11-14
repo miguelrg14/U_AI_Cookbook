@@ -97,7 +97,7 @@ namespace AICookbook.DecisionTrees
         /// </summary>
         public void LookOut()
         {
-            // The look-out range is wider than the see range, so use the watched target here
+            // The look-out condition uses the look-out range, so act on its target
             GameObject watched = targetDetector.watchingTarget;
             if (watched == null) return;
 

@@ -102,6 +102,31 @@ namespace AICookbook.Menu
             colors.highlightedColor = cardHoverColor;
             colors.selectedColor = cardHoverColor;
             colors.pressedColor = Color.Lerp(cardHoverColor, accentColor, 0.35f);
+
+            // Optional screenshot (saved with F12 inside the demo) as a darkened card background
+            var thumbnail = Resources.Load<Texture2D>($"{DemoNavigator.ThumbnailsFolder}/{demo.Scene}");
+            if (thumbnail != null)
+            {
+                card.AddComponent<RectMask2D>();
+                var thumbGO = new GameObject("Thumbnail", typeof(RectTransform), typeof(RawImage), typeof(AspectRatioFitter), typeof(LayoutElement));
+                thumbGO.transform.SetParent(card.transform, false);
+                thumbGO.GetComponent<LayoutElement>().ignoreLayout = true;
+                var raw = thumbGO.GetComponent<RawImage>();
+                raw.texture = thumbnail;
+                raw.raycastTarget = false;
+                var fitter = thumbGO.GetComponent<AspectRatioFitter>();
+                fitter.aspectMode = AspectRatioFitter.AspectMode.EnvelopeParent;
+                fitter.aspectRatio = (float)thumbnail.width / thumbnail.height;
+
+                // The screenshot is what the button tints: dark by default, brighter on hover
+                image.color = cardColor;
+                raw.color = Color.white;
+                button.targetGraphic = raw;
+                colors.normalColor = new Color(0.32f, 0.32f, 0.36f);
+                colors.highlightedColor = new Color(0.55f, 0.55f, 0.6f);
+                colors.selectedColor = colors.highlightedColor;
+                colors.pressedColor = new Color(0.7f, 0.7f, 0.75f);
+            }
             colors.colorMultiplier = 1f;
             colors.fadeDuration = 0.08f;
             button.colors = colors;
