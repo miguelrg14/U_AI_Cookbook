@@ -1,7 +1,9 @@
 {
     "name": "AICookbook.BehaviourTrees",
     "rootNamespace": "AICookbook.BehaviourTrees",
-    "references": [],
+    "references": [
+        "AICookbook.Shared"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

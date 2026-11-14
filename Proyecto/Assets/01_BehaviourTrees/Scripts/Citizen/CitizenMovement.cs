@@ -3,6 +3,8 @@ using UnityEngine;
 
 namespace AICookbook.BehaviourTrees
 {
+    using AICookbook.Shared;
+
 
     /// <summary>
     ///     Citizen movement depending on if there's a threat or not nearby
@@ -31,18 +33,9 @@ namespace AICookbook.BehaviourTrees
 
 
         /// <summary>
-        ///     Controls what part of the routine must be played
+        ///     Idle wandering when there is nothing else to do
         /// </summary>
-        float chillingTimer = 0;
-        /// <summary>
-        ///     Routine randomly generated values
-        /// </summary>
-        int walkWait;
-        int walkTime;
-        int rotateWait;
-        int rotateOrNot;
-        int rotationTime;
-        float rotationQuantity;
+        readonly WanderRoutine wander = new WanderRoutine();
 
         void Start()
         {
@@ -75,68 +68,13 @@ namespace AICookbook.BehaviourTrees
         /// </summary>
         public void MoveOnOppositeDirectionToZombie()
         {
-            chillingTimer = 0;
-
-            Vector3 direction = (gameObject.transform.position - target.transform.position).normalized;
-            direction.y = 0;
-            Vector3 acceleration = direction * movementSpeed * Time.fixedDeltaTime;
-
-            if (acceleration.magnitude > maxSpeed)
-            {
-                acceleration.Normalize();
-                acceleration *= maxSpeed;
-            }
-
-            gameObject.transform.LookAt(direction);
-            rb.linearVelocity = acceleration;
+            wander.Restart();
+            AgentMotor.MoveAwayFrom(rb, target.transform.position, movementSpeed, maxSpeed, rotationSpeed);
         }
 
         /// <summary>
-        ///     Chill when no zombie is around
+        ///     Wanders around while idle
         /// </summary>
-        void ChillRoutineLogic()
-        {
-            if (chillingTimer <= 0)
-            {
-                walkWait = Random.Range(1, 3);
-                walkTime = walkWait + Random.Range(0, 3);
-                rotateWait = walkTime + Random.Range(0, 3);
-                rotateOrNot = Random.Range(1, 2);
-                rotationTime = rotateWait + Random.Range(0, 3);
-                rotationQuantity = Random.Range(-180, 180);
-
-                rb.constraints = RigidbodyConstraints.FreezeRotation;
-            }
-
-            chillingTimer += Time.deltaTime;
-            Wander();
-        }
-        void Wander()
-        {
-            if (chillingTimer <= walkWait)
-                return;
-
-            if (chillingTimer <= walkTime)
-            {
-                Vector3 acceleration = transform.forward * movementSpeed * Time.fixedDeltaTime;
-                acceleration.y = 0;
-                rb.linearVelocity = acceleration;
-                return;
-            }
-            if (chillingTimer <= rotateWait)
-            {
-                return;
-            }
-
-            if (rotateOrNot == 1)
-            {
-                if (chillingTimer <= rotationTime)
-                {
-                    transform.Rotate(transform.up * Time.deltaTime * rotationQuantity);
-                    return;
-                }
-            }
-            chillingTimer = 0;
-        }
+        void ChillRoutineLogic() => wander.Tick(rb, movementSpeed);
     }
 }

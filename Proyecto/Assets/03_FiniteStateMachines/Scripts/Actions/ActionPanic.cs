@@ -12,7 +12,7 @@ namespace AICookbook.FiniteStateMachines
     public class ActionPanic : IAction
     {
         GameObject entity_gameObject;
-        EntityStats entityStats;
+        FsmEntityStats entityStats;
         Rigidbody rb;
         VisualFeedback visualFeedback;
         TargetDetector_Colleague targetDetector;
@@ -26,7 +26,7 @@ namespace AICookbook.FiniteStateMachines
 
         void Start()
         {
-            entityStats = GetComponentInParent<EntityStats>();
+            entityStats = GetComponentInParent<FsmEntityStats>();
             rb = GetComponentInParent<Rigidbody>();
             visualFeedback = GetComponentInParent<VisualFeedback>();
             targetDetector = GetComponentInParent<TargetDetector_Colleague>();
@@ -56,24 +56,11 @@ namespace AICookbook.FiniteStateMachines
             entityStats.isPanicking = true;
             entityStats.isEscaping = false;
 
-
             if (target != null)
                 targetLastPosition = target.transform.position;
 
-            Vector3 direction = -(targetLastPosition - entity_gameObject.transform.position).normalized;
-            direction.y = 0;
-            Vector3 acceleration = direction * speed * Time.fixedDeltaTime;
-
             entityStats.UseStamina();
-
-            if (acceleration.magnitude > maxSpeed)
-            {
-                acceleration.Normalize();
-                acceleration *= maxSpeed;
-            }
-
-            entity_gameObject.transform.LookAt(direction * rotationSpeed * Time.fixedDeltaTime);
-            rb.linearVelocity = acceleration;
+            AgentMotor.MoveAwayFrom(rb, targetLastPosition, speed, maxSpeed, rotationSpeed);
         }
     }
 }

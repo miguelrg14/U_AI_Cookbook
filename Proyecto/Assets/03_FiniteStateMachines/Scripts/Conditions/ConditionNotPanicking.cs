@@ -13,11 +13,11 @@ namespace AICookbook.FiniteStateMachines
     /// </summary>
     public class ConditionNotPanicking : ICondition
     {
-        EntityStats entityStats;
+        FsmEntityStats entityStats;
 
         void Awake()
         {
-            entityStats = GetComponentInParent<EntityStats>();
+            entityStats = GetComponentInParent<FsmEntityStats>();
         }
 
         /// <summary>

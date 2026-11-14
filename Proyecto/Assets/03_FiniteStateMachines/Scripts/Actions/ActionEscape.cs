@@ -12,7 +12,7 @@ namespace AICookbook.FiniteStateMachines
     public class ActionEscape : IAction
     {
         GameObject entity_gameObject;
-        EntityStats entityStats;
+        FsmEntityStats entityStats;
         Rigidbody rb;
         VisualFeedback visualFeedback;
         TargetDetector targetDetector;
@@ -25,7 +25,7 @@ namespace AICookbook.FiniteStateMachines
 
         void Start()
         {
-            entityStats = GetComponentInParent<EntityStats>();
+            entityStats = GetComponentInParent<FsmEntityStats>();
             rb = GetComponentInParent<Rigidbody>();
             visualFeedback = GetComponentInParent<VisualFeedback>();
             targetDetector = GetComponentInParent<TargetDetector>();
@@ -51,20 +51,11 @@ namespace AICookbook.FiniteStateMachines
         {
             entity_gameObject = rb.gameObject;
 
-            Vector3 direction = -(target.transform.position - entity_gameObject.transform.position).normalized;
-            direction.y = 0;
-            Vector3 acceleration = direction * speed * Time.fixedDeltaTime;
+            if (target == null)
+                return;
 
             entityStats.UseStamina();
-
-            if (acceleration.magnitude > maxSpeed)
-            {
-                acceleration.Normalize();
-                acceleration *= maxSpeed;
-            }
-
-            entity_gameObject.transform.LookAt(direction * rotationSpeed * Time.fixedDeltaTime);
-            rb.linearVelocity = acceleration;
+            AgentMotor.MoveAwayFrom(rb, target.transform.position, speed, maxSpeed, rotationSpeed);
         }
     }
 }
