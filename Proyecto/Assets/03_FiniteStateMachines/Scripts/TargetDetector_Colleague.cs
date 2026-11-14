@@ -108,7 +108,7 @@ namespace AICookbook.FiniteStateMachines
         /// <summary>
         ///     Entity near is paniquing? => then panic
         /// </summary>
-        void DetectIsPaniquing()
+        void DetectIsPanicking()
         {
             // Detect if is paniquing
             if (target != null)
@@ -125,7 +125,7 @@ namespace AICookbook.FiniteStateMachines
                 }
 
             else
-                entityStats.isPaniquing = false;
+                entityStats.isPanicking = false;
         }
 
         /// <summary>

@@ -1,7 +1,6 @@
 // Miguel Rodríguez Gallego
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 
 namespace AICookbook.FiniteStateMachines
@@ -10,9 +9,9 @@ namespace AICookbook.FiniteStateMachines
 
 
     /// <summary>
-    ///     Detects if entity is not paniquing
+    ///     Detects if entity is not panicking
     /// </summary>
-    public class ConditionNotPaniquing : ICondition
+    public class ConditionNotPanicking : ICondition
     {
         EntityStats entityStats;
 
@@ -22,11 +21,11 @@ namespace AICookbook.FiniteStateMachines
         }
 
         /// <summary>
-        ///     Tests if entity is not paniquing
+        ///     Tests if entity is not panicking
         /// </summary>
         public override bool Test()
         {
-            if (!entityStats.isPaniquing)
+            if (!entityStats.isPanicking)
             {
                 return true;
             }
