@@ -23,6 +23,7 @@ namespace AICookbook.Shared
 
         public static readonly Color SeeRangeColor = new Color(1f, 0.85f, 0.2f, 0.45f);
         public static readonly Color CloseRangeColor = new Color(1f, 0.35f, 0.25f, 0.75f);
+        public static readonly Color CloseRangeExitColor = new Color(1f, 0.35f, 0.25f, 0.25f);
 
         const int CircleSegments = 48;
 
@@ -76,6 +77,8 @@ namespace AICookbook.Shared
                 if (detector is TwoRangeTargetDetector twoRange)
                 {
                     DrawCircle(position, twoRange.CloseTargetRange, CloseRangeColor);
+                    if (twoRange.CloseRangeExitDistance > twoRange.CloseTargetRange)
+                        DrawCircle(position, twoRange.CloseRangeExitDistance, CloseRangeExitColor);
                     if (twoRange.CloseTarget != null)
                         DrawLine(position, twoRange.CloseTarget.transform.position, CloseRangeColor);
                 }
