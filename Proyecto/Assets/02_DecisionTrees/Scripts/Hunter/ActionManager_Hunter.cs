@@ -69,9 +69,9 @@ namespace AICookbook.DecisionTrees
         /// </summary>
         void OnCollisionEnter(Collision collision)
         {
-            if (collision.transform.tag == "Prey")
+            if (collision.gameObject.CompareTag("Prey"))
             {
-                Kill();
+                Kill(collision.gameObject);
                 rb.linearVelocity = Vector3.zero;
                 //Transform spawn = spawnPoints[Random.Range(0, spawnPoints.Length)];
                 //Instantiate(preyPrefab, spawn).transform.parent = entityTransformParent.transform;            
@@ -87,7 +87,8 @@ namespace AICookbook.DecisionTrees
         /// </summary>
         void MoveTowards(GameObject target, float speed)
         {
-            if (target == null) return;
+            // A prey killed this frame is still referenced until the detector updates
+            if (target == null || !target.activeInHierarchy) return;
 
             stats.UseStamina();
             AgentMotor.MoveTowards(rb, target.transform.position, speed, maxSpeed, rotationSpeed);
@@ -105,11 +106,14 @@ namespace AICookbook.DecisionTrees
             stateImage_searching.gameObject.SetActive(false);
             stateImage_resting.gameObject.SetActive(false);
         }
-        public void Kill()
+        /// <summary>
+        ///     Removes the prey the hunter has touched (not the one it was following, which can be another)
+        /// </summary>
+        public void Kill(GameObject prey)
         {
-            if (target == null) return;
+            if (prey == null) return;
 
-            target.SetActive(false);
+            prey.SetActive(false);
         }
         /// <summary>
         ///     When prey is on sight, hunter follows it till it gets to its position
