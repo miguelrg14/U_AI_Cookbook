@@ -56,7 +56,7 @@ namespace AICookbook.GeneticAlgorithms
 
         void Start()
         {
-            Genetic = new GeneticAlgorithm(testShotNumb, 10); // Initialize new geneticAlgorithm
+            Genetic = new GeneticAlgorithm(testShotNumb, 10, selection, crossover, mutation); // Initialize new geneticAlgorithm
 
             if (beginningTest == true)
             {
