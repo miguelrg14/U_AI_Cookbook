@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AI_Player : Player
+namespace AICookbook.Minimax
 {
-    public int maxDepth = 3;
 
-    public override bool MakeMove(GameBoard board)
+    public class AI_Player : Player
     {
-        throw new System.NotImplementedException();
+        public int maxDepth = 3;
+
+        public override bool MakeMove(GameBoard board)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
