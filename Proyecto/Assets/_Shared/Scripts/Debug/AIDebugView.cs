@@ -90,18 +90,8 @@ namespace AICookbook.Shared
 
         bool EnsureMaterial()
         {
-            if (lineMaterial != null) return true;
-
-            var shader = Shader.Find("Hidden/Internal-Colored");
-            if (shader == null) return false;
-
-            lineMaterial = new Material(shader) { hideFlags = HideFlags.HideAndDontSave };
-            lineMaterial.SetInt("_SrcBlend", (int)BlendMode.SrcAlpha);
-            lineMaterial.SetInt("_DstBlend", (int)BlendMode.OneMinusSrcAlpha);
-            lineMaterial.SetInt("_Cull", (int)CullMode.Off);
-            lineMaterial.SetInt("_ZWrite", 0);
-            lineMaterial.SetInt("_ZTest", (int)CompareFunction.Always); // always visible, even behind objects
-            return true;
+            if (lineMaterial == null) lineMaterial = GLMaterial.Get();
+            return lineMaterial != null;
         }
 
         static void DrawLine(Vector3 from, Vector3 to, Color color)
