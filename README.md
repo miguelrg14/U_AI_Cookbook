@@ -27,6 +27,7 @@ A collection of game AI techniques implemented in Unity (C#). All the demos live
 EditMode tests (Window → General → Test Runner → EditMode → Run All):
 
 - `AICookbook.Shared.Tests`: target detection ranges and hysteresis with real colliders, agent movement.
+- `AICookbook.Minimax.Tests`: Connect Four rules — legal moves, wins in every direction, draws and look-ahead boards.
 - `AICookbook.GeneticAlgorithms.Tests`: population, selection, crossover (including a regression test for BLX-α), mutation ranges and a full evolution run that must improve the population.
 
 ## Repository layout
@@ -43,4 +44,4 @@ Documentacion/           Original assignment reports (Spanish)
 07_Reinforcement-Learning/  Standalone C# console project
 ```
 
-Each module's scripts live in their own namespace (`AICookbook.BehaviourTrees`, `AICookbook.DecisionTrees`, ...), so modules never clash with each other. Code reused by several demos lives in `Assets/_Shared` (`AICookbook.Shared`): the free camera, the decision system (actions, conditions, decision trees and state machines) and the agent building blocks used by demos 01-03 (`EntityStats`, `TargetDetectorBase`, `AgentMotor`, `WanderRoutine`). `05_Minimax` keeps the global namespace because its scenes are serialized in binary and their UI events reference the type names directly. Each module is also its own assembly (`.asmdef`): demos only depend on `AICookbook.Shared`, never on each other, and `05_Minimax` stays in `Assembly-CSharp`. To add a new demo, create its folder with its own `.asmdef`, add its scene to Build Profiles and register it in `Assets/_Menu/Scripts/DemoCatalog.cs`.
+Each module's scripts live in their own namespace (`AICookbook.BehaviourTrees`, `AICookbook.DecisionTrees`, ...), so modules never clash with each other. Code reused by several demos lives in `Assets/_Shared` (`AICookbook.Shared`): the free camera, the decision system (actions, conditions, decision trees and state machines) and the agent building blocks used by demos 01-03 (`EntityStats`, `TargetDetectorBase`, `AgentMotor`, `WanderRoutine`). Each module is also its own assembly (`.asmdef`): demos only depend on `AICookbook.Shared`, never on each other. To add a new demo, create its folder with its own `.asmdef`, add its scene to Build Profiles and register it in `Assets/_Menu/Scripts/DemoCatalog.cs`.
