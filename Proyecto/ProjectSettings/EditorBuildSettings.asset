@@ -27,6 +27,9 @@ EditorBuildSettings:
     path: Assets/06_GeneticAlgorithms/Scenes/GA_LaunchTarget.unity
     guid: 4308c327a43013b43ac39268a0cac91a
   - enabled: 1
+    path: Assets/07_ReinforcementLearning/Scenes/RL_GridWorld.unity
+    guid: 917ee4ee044e4261933feb05052ac4e3
+  - enabled: 1
     path: Assets/06_GeneticAlgorithms/Scenes/GA_OneOnOne.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects:

@@ -14,7 +14,7 @@ A collection of game AI techniques implemented in Unity (C#). All the demos live
 | 04 | Procedural Generation | Perlin noise terrain | `Assets/04_ProceduralGeneration/_Scenes/PCG_ProceduralGeneration.unity` |
 | 05 | Minimax · Negamax α-β · Aspiration | Connect Four | `Assets/05_Minimax/IA Practice/Scenes/Minimax_ConnectFour.unity` |
 | 06 | Genetic Algorithms | Launch to target | `Assets/06_GeneticAlgorithms/Scenes/GA_LaunchTarget.unity` |
-| 07 | Reinforcement Learning (Q-Learning, SARSA) | Maze solver (C# console app) | `07_Reinforcement-Learning/` |
+| 07 | Reinforcement Learning (Q-Learning, SARSA) | Maze and cliff walking | `Assets/07_ReinforcementLearning/Scenes/RL_GridWorld.unity` |
 
 ## How to run
 
@@ -28,6 +28,7 @@ EditMode tests (Window → General → Test Runner → EditMode → Run All):
 
 - `AICookbook.Shared.Tests`: target detection ranges and hysteresis with real colliders, agent movement.
 - `AICookbook.Minimax.Tests`: Connect Four rules, and the search algorithms: they take wins and block losses, Minimax/Negamax/Aspiration reach the same decision on random positions, and alpha-beta visits far fewer positions.
+- `AICookbook.ReinforcementLearning.Tests`: grid world rules, the Q-Learning update, Q-Learning finding the shortest path, and the classic cliff-walking result (Q-Learning walks the edge, SARSA earns more while exploring).
 - `AICookbook.GeneticAlgorithms.Tests`: population, selection, crossover (including a regression test for BLX-α), mutation ranges and a full evolution run that must improve the population.
 
 ## Repository layout
@@ -40,8 +41,7 @@ Proyecto/                Unity project
     01_BehaviourTrees/   One folder per demo with its own scenes, scripts, prefabs and art
     ...
     TextMesh Pro/        Shared TMP resources
-Documentacion/           Original assignment reports (Spanish)
-07_Reinforcement-Learning/  Standalone C# console project
+Documentacion/           Original assignment reports (Spanish) and the original console version of 07
 ```
 
 Each module's scripts live in their own namespace (`AICookbook.BehaviourTrees`, `AICookbook.DecisionTrees`, ...), so modules never clash with each other. Code reused by several demos lives in `Assets/_Shared` (`AICookbook.Shared`): the free camera, the decision system (actions, conditions, decision trees and state machines) and the agent building blocks used by demos 01-03 (`EntityStats`, `TargetDetectorBase`, `AgentMotor`, `WanderRoutine`). Each module is also its own assembly (`.asmdef`): demos only depend on `AICookbook.Shared`, never on each other. To add a new demo, create its folder with its own `.asmdef`, add its scene to Build Profiles and register it in `Assets/_Menu/Scripts/DemoCatalog.cs`.
