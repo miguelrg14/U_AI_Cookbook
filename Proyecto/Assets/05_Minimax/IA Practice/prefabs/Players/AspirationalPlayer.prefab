@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7568120312528898439}
   - component: {fileID: 7568120312528898433}
-  - component: {fileID: 7568120312528898438}
   m_Layer: 0
   m_Name: AspirationalPlayer
   m_TagString: Untagged
@@ -46,20 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 0
-  maxDepth: 5
-  Negamax: {fileID: 7568120312528898438}
+  maxDepth: 6
   windowRange: 25
---- !u!114 &7568120312528898438
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7568120312528898436}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bd716f7d11860c4d89530c08056ba5e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ID: 0
-  maxDepth: 5
