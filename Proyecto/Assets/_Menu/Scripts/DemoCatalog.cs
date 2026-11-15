@@ -70,12 +70,15 @@ namespace AICookbook.Menu
                 "The mesh is built vertex by vertex when the scene starts: a grid whose heights come from Perlin noise, " +
                 "joined into triangles. Fly close to see its shape."),
 
-            new DemoInfo("05", "Connect Four", "Minimax · Negamax · Aspiration",
+            new DemoInfo("05", "Connect Four", "Minimax · Negamax α-β · Aspiration",
                 "Choose human or AI players and pit the search algorithms against each other.",
                 "Minimax_ConnectFour",
-                new[] { "Pick a player type for each side and start the game", "Left click on a column: drop a piece (human player)" },
-                "Each AI explores future moves and scores the boards it reaches. Minimax and Negamax search the same tree; " +
-                "Aspiration search starts with a narrow alpha-beta window to prune more branches. Try AI vs AI."),
+                new[] { "Pick a player type for each side and start the game", "Left click on a column: drop a piece (human player)",
+                        "G: AI debug view (chosen column, score, positions searched and time)" },
+                "The three AIs search the same game tree and reach the same decisions; what changes is the cost. " +
+                "Minimax explores every move, Negamax with alpha-beta skips branches that cannot change the result " +
+                "(it searches deeper with far fewer positions) and Aspiration bets on a narrow score window. " +
+                "Press G during an AI vs AI game to compare how many positions each one visits."),
 
             new DemoInfo("06", "Launch to Target", "Genetic Algorithms",
                 "A population of shots evolves through selection, crossover and mutation until it hits the target.",
