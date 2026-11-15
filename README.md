@@ -12,7 +12,7 @@ A collection of game AI techniques implemented in Unity (C#). All the demos live
 | 02 | Decision Trees | Predator & prey | `Assets/02_DecisionTrees/_Scenes/DT_Hunting.unity` |
 | 03 | Finite State Machines | Predator & prey | `Assets/03_FiniteStateMachines/_Scenes/FSM_Hunting.unity` |
 | 04 | Procedural Generation | Perlin noise terrain | `Assets/04_ProceduralGeneration/_Scenes/PCG_ProceduralGeneration.unity` |
-| 05 | Minimax · Negamax · Aspiration | Connect Four | `Assets/05_Minimax/IA Practice/Scenes/Minimax_ConnectFour.unity` |
+| 05 | Minimax · Negamax α-β · Aspiration | Connect Four | `Assets/05_Minimax/IA Practice/Scenes/Minimax_ConnectFour.unity` |
 | 06 | Genetic Algorithms | Launch to target | `Assets/06_GeneticAlgorithms/Scenes/GA_LaunchTarget.unity` |
 | 07 | Reinforcement Learning (Q-Learning, SARSA) | Maze solver (C# console app) | `07_Reinforcement-Learning/` |
 
@@ -27,7 +27,7 @@ A collection of game AI techniques implemented in Unity (C#). All the demos live
 EditMode tests (Window → General → Test Runner → EditMode → Run All):
 
 - `AICookbook.Shared.Tests`: target detection ranges and hysteresis with real colliders, agent movement.
-- `AICookbook.Minimax.Tests`: Connect Four rules — legal moves, wins in every direction, draws and look-ahead boards.
+- `AICookbook.Minimax.Tests`: Connect Four rules, and the search algorithms: they take wins and block losses, Minimax/Negamax/Aspiration reach the same decision on random positions, and alpha-beta visits far fewer positions.
 - `AICookbook.GeneticAlgorithms.Tests`: population, selection, crossover (including a regression test for BLX-α), mutation ranges and a full evolution run that must improve the population.
 
 ## Repository layout
