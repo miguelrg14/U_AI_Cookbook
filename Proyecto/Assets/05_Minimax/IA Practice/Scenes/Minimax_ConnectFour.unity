@@ -203,7 +203,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 367418930}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: AICookbook.Minimax.UIManager, AICookbook.Minimax
         m_MethodName: ChangePlayer2
         m_Mode: 3
         m_Arguments:
@@ -508,7 +508,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 367418930}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: AICookbook.Minimax.UIManager, AICookbook.Minimax
         m_MethodName: ChangePlayer1
         m_Mode: 3
         m_Arguments:
@@ -641,7 +641,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 367418930}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: AICookbook.Minimax.UIManager, AICookbook.Minimax
         m_MethodName: ChangePlayer2
         m_Mode: 3
         m_Arguments:
@@ -1304,7 +1304,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 367418930}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: AICookbook.Minimax.UIManager, AICookbook.Minimax
         m_MethodName: ChangePlayer1
         m_Mode: 3
         m_Arguments:
@@ -2521,7 +2521,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 367418930}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: AICookbook.Minimax.UIManager, AICookbook.Minimax
         m_MethodName: ChangePlayer1
         m_Mode: 3
         m_Arguments:
@@ -2654,7 +2654,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 367418930}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: AICookbook.Minimax.UIManager, AICookbook.Minimax
         m_MethodName: ChangePlayer2
         m_Mode: 3
         m_Arguments:
@@ -2787,7 +2787,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 367418930}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: AICookbook.Minimax.UIManager, AICookbook.Minimax
         m_MethodName: StartGame
         m_Mode: 1
         m_Arguments:
@@ -2944,7 +2944,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 367418930}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: AICookbook.Minimax.UIManager, AICookbook.Minimax
         m_MethodName: RestartScene
         m_Mode: 1
         m_Arguments:
@@ -4414,7 +4414,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 367418930}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: AICookbook.Minimax.UIManager, AICookbook.Minimax
         m_MethodName: ChangePlayer2
         m_Mode: 3
         m_Arguments:
@@ -4684,7 +4684,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 367418930}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: AICookbook.Minimax.UIManager, AICookbook.Minimax
         m_MethodName: ChangePlayer1
         m_Mode: 3
         m_Arguments:

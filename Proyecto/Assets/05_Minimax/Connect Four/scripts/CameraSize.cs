@@ -1,5 +1,7 @@
 using UnityEngine;
 
+using AICookbook.Minimax;
+
 namespace ConnectFour
 {
 	public class CameraSize : MonoBehaviour 
