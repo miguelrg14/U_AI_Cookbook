@@ -86,6 +86,15 @@ namespace AICookbook.Menu
                 new[] { "Space: shoot with the best individual found so far" },
                 "Every shot is an individual: two angles and a strength. After each generation the best ones are selected, " +
                 "crossed and mutated, so shots land closer and closer to the target."),
+            new DemoInfo("07", "Learning a Maze", "Reinforcement Learning",
+                "Q-Learning and SARSA learn by trial and error which way to go; watch the values spread from the goal.",
+                "RL_GridWorld",
+                new[] { "Right panel: map, algorithm, parameters and speed", "Left click on a cell: wall on/off",
+                        "Right click: move the goal  ·  Shift + click: move the start" },
+                "Each cell's colour is the value learned for it and the arrows are the best action found so far. " +
+                "The values spread backwards from the goal episode after episode until the cyan path is the shortest one. " +
+                "In 'Cliff walking', compare both algorithms: Q-Learning learns the risky path along the edge and " +
+                "SARSA a safer one, because it accounts for its own exploration."),
         };
 
         /// <summary>
