@@ -2,33 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HumanPlayer : Player
+namespace AICookbook.Minimax
 {
-    public override bool MakeMove(GameBoard board)
+
+    public class HumanPlayer : Player
     {
-        if (Input.GetMouseButtonDown(0))
+        public override bool MakeMove(GameBoard board)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit))
+            if (Input.GetMouseButtonDown(0))
             {
-                if (hit.collider.CompareTag("GameBoard"))
-                {
-                    int column = board.GetColumnFromHitPoint(hit.point);
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
 
-                    if (board.IsValidMove(column))
+                if (Physics.Raycast(ray, out hit))
+                {
+                    if (hit.collider.CompareTag("GameBoard"))
                     {
-                        board.MakeMove(column, ID);
-                        return true;
-                    }
-                    else
-                        Debug.Log("Column full");
+                        int column = board.GetColumnFromHitPoint(hit.point);
+
+                        if (board.IsValidMove(column))
+                        {
+                            board.MakeMove(column, ID);
+                            return true;
+                        }
+                        else
+                            Debug.Log("Column full");
                         
+                    }
                 }
             }
-        }
 
-        return false;
+            return false;
+        }
     }
 }
