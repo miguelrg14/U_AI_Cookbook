@@ -2,6 +2,7 @@
     "name": "AICookbook.Minimax",
     "rootNamespace": "AICookbook.Minimax",
     "references": [
+        "AICookbook.Shared",
         "Unity.TextMeshPro",
         "UnityEngine.UI"
     ],

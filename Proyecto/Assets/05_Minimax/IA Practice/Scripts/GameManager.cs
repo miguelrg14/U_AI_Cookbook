@@ -54,6 +54,7 @@ namespace AICookbook.Minimax
                 {
                     if (player1.MakeMove(gameBoard))
                     {
+                        yield return new WaitUntil(() => !gameBoard.IsDropping);
                         gameState = gameBoard.CheckWin(currentPlayerID);
                         CheckEnd(currentPlayerID, gameState);
                         SwitchPlayer();
@@ -64,6 +65,7 @@ namespace AICookbook.Minimax
                 {
                     if (player2.MakeMove(gameBoard))
                     {
+                        yield return new WaitUntil(() => !gameBoard.IsDropping);
                         gameState = gameBoard.CheckWin(currentPlayerID);
                         CheckEnd(currentPlayerID, gameState);
                         SwitchPlayer();
