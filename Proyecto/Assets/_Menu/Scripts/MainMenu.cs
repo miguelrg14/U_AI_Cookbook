@@ -130,7 +130,49 @@ namespace AICookbook.Menu
 
             CreateText(content.transform, "Press Esc or the Menu button inside any demo to come back here.", 22, FontStyles.Italic, secondaryTextColor, TextAlignmentOptions.Center);
 
+            CreateQuitButton(canvasGO.transform);
+
             Relayout(canvasRect.rect.size);
+        }
+
+        /// <summary>
+        ///     "Quit" button in the top-right corner. Hidden in the browser build, where a page can't close itself.
+        /// </summary>
+        void CreateQuitButton(Transform parent)
+        {
+            if (Application.platform == RuntimePlatform.WebGLPlayer) return;
+
+            var go = new GameObject("QuitButton", typeof(RectTransform), typeof(Image), typeof(Button));
+            go.transform.SetParent(parent, false);
+            var rect = (RectTransform)go.transform;
+            rect.anchorMin = rect.anchorMax = rect.pivot = new Vector2(1, 1);
+            rect.anchoredPosition = new Vector2(-32, -28);
+            rect.sizeDelta = new Vector2(150, 56);
+
+            var image = go.GetComponent<Image>();
+            image.color = Color.white;
+            var button = go.GetComponent<Button>();
+            button.targetGraphic = image;
+            var colors = button.colors;
+            colors.normalColor = cardColor;
+            colors.highlightedColor = cardHoverColor;
+            colors.selectedColor = cardColor;
+            colors.pressedColor = Color.Lerp(cardHoverColor, accentColor, 0.35f);
+            colors.fadeDuration = 0.08f;
+            button.colors = colors;
+            button.onClick.AddListener(Quit);
+
+            var label = CreateText(go.transform, "Quit", 26, FontStyles.Bold, secondaryTextColor, TextAlignmentOptions.Center);
+            Stretch(label.rectTransform);
+        }
+
+        static void Quit()
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
         }
 
         /// <summary>
