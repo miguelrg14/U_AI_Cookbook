@@ -26,6 +26,10 @@ jobs:
   test:
     name: EditMode tests
     runs-on: ubuntu-latest
+    # checks: write lets the test runner publish the "EditMode test results" check run.
+    permissions:
+      contents: read
+      checks: write
     steps:
       - uses: actions/checkout@v4
 
