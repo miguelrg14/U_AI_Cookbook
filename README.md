@@ -8,7 +8,6 @@ Seven classic game AI techniques implemented in Unity (C#), all in one project a
 
 ### ▶ [Play it in the browser](https://miguelrg14.github.io/U_AI_Cookbook/)
 
-<!-- Main menu capture. See "Recording the GIFs" at the bottom. -->
 ![Main menu](docs/media/menu.gif)
 
 ## Demos
@@ -107,11 +106,3 @@ These demos started as assignments for the game AI course of my degree in game d
 - **Sound effects** (06) from [SoundBible.com](https://soundbible.com): "40 Smith Wesson 8x Gunshot" by Mike Koenig and "Battle Axe Swing".
 
 Everything else: Miguel Rodríguez Gallego, [MIT License](LICENSE).
-
-## Recording the GIFs
-
-The images above are expected in `docs/media/`. To record them:
-
-1. Play the WebGL build or the editor at 1280×720.
-2. Record 5–10 seconds per demo with [ScreenToGif](https://www.screentogif.com) (Windows) or the Unity Recorder package.
-3. Export at 10–15 fps and under ~5 MB each, using the names referenced in this README (`menu.gif`, `01_behaviour_trees.gif`, `02_decision_trees.gif`, `05_minimax.gif`, `07_reinforcement_learning.gif`).
