@@ -42,16 +42,13 @@
         arguments: [],
         dataUrl: buildUrl + "/{{{ DATA_FILENAME }}}",
         frameworkUrl: buildUrl + "/{{{ FRAMEWORK_FILENAME }}}",
-#if USE_THREADS
-        workerUrl: buildUrl + "/{{{ WORKER_FILENAME }}}",
-#endif
-#if USE_WASM
+#if typeof CODE_FILENAME !== "undefined" && CODE_FILENAME
         codeUrl: buildUrl + "/{{{ CODE_FILENAME }}}",
 #endif
-#if MEMORY_FILENAME
+#if typeof MEMORY_FILENAME !== "undefined" && MEMORY_FILENAME
         memoryUrl: buildUrl + "/{{{ MEMORY_FILENAME }}}",
 #endif
-#if SYMBOLS_FILENAME
+#if typeof SYMBOLS_FILENAME !== "undefined" && SYMBOLS_FILENAME
         symbolsUrl: buildUrl + "/{{{ SYMBOLS_FILENAME }}}",
 #endif
         streamingAssetsUrl: "StreamingAssets",
