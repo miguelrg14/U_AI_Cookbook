@@ -8,7 +8,7 @@ Seven classic game AI techniques implemented in Unity (C#), all in one project a
 
 ### ▶ [Play it in the browser](https://miguelrg14.github.io/U_AI_Cookbook/)
 
-![Main menu](docs/media/menu.gif)
+![The main menu and a few seconds of each demo](docs/media/menu.gif)
 
 ## Demos
 
@@ -24,10 +24,17 @@ Seven classic game AI techniques implemented in Unity (C#), all in one project a
 
 Every demo has a help panel (**H**) explaining what is happening and its controls, an AI debug view (**G**) showing each agent's current decision, detection ranges and target, and **Esc** to return to the menu.
 
-| | |
+| 01 · Behaviour trees | 02 · Decision trees |
 |---|---|
-| ![Behaviour trees](docs/media/01_behaviour_trees.gif) | ![Decision trees](docs/media/02_decision_trees.gif) |
-| ![Connect Four](docs/media/05_minimax.gif) | ![Reinforcement learning](docs/media/07_reinforcement_learning.gif) |
+| ![Zombies chase the citizens and the infection spreads](docs/media/01_behaviour_trees.gif) | ![A hunter chases the prey, which flees or rests depending on its stamina](docs/media/02_decision_trees.gif) |
+| **03 · Finite state machines** | **04 · Procedural generation** |
+| ![The same predator and prey scenario driven by state machines](docs/media/03_state_machines.gif) | ![A terrain mesh generated with Perlin noise](docs/media/04_procedural_generation.jpg) |
+| **05 · Minimax, Negamax α-β, Aspiration** | **06 · Genetic algorithms** |
+| ![Two search algorithms play Connect Four against each other](docs/media/05_minimax.gif) | ![Generations of shots evolve until they hit the target](docs/media/06_genetic_algorithms.gif) |
+| **07 · Q-Learning and SARSA** | |
+| ![The agent learns the maze and the values spread from the goal](docs/media/07_reinforcement_learning.gif) | |
+
+The longer demos are sped up: Connect Four ×4, genetic algorithms ×3 and reinforcement learning ×5.
 
 ## Highlights
 
