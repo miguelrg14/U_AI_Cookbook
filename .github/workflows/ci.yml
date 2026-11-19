@@ -72,6 +72,18 @@ jobs:
           haskell: true
           large-packages: false
 
+      # Linking the web player (IL2CPP + Emscripten) can exceed the runner's RAM; when it does,
+      # the build is killed with exit code 137. 12 GB of swap on the large /mnt disk avoids it.
+      - name: Add swap space
+        run: |
+          sudo swapoff -a
+          sudo rm -f /mnt/swapfile
+          sudo fallocate -l 12G /mnt/swapfile
+          sudo chmod 600 /mnt/swapfile
+          sudo mkswap /mnt/swapfile
+          sudo swapon /mnt/swapfile
+          free -h
+
       - uses: actions/checkout@v4
 
       - uses: actions/cache@v4
